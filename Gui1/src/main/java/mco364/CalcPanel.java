@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package mco364;
 
 
@@ -46,17 +42,18 @@ class CalcPanel extends JPanel {
     
     // this will be used to display the number that we are currently typing into
     // the calculator. It will also be used to display the answer to a calculation.
-    private StringBuffer mainDisplay;
+    private StringBuilder mainDisplay;
     
     // this is the display which goes on top of the mainDisplay. It is used after
     // some sort of operation is called such as add. It will keep track and be 
     // used to display all numbers and operators that are being used for a given equation.
-    private StringBuffer secondaryDisplay;
+    private StringBuilder secondaryDisplay;
     
     // checks if MS was pressed (this hasn't been implemented yet)
     private boolean memorySaved;
     
     private double currentEntry;
+    private Enum currentOperator;
 
     public CalcPanel() {
        
@@ -67,8 +64,8 @@ class CalcPanel extends JPanel {
        // This sets the screen to initialy show 0 like in a regular calculator.
        pane.setText("</h1><br><h1>" + "0"+ "</h1>");
        
-       mainDisplay = new StringBuffer();
-       secondaryDisplay = new StringBuffer();
+       mainDisplay = new StringBuilder();
+       secondaryDisplay = new StringBuilder();
        
        setLayout (new GridBagLayout ());
        GridBagConstraints c = new GridBagConstraints ();
@@ -314,6 +311,15 @@ class CalcPanel extends JPanel {
        c.gridx = 3;
        c.gridy = 5;
        add(buttonAdd, c);
+       buttonAdd.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               attachToSecondary(" + ");
+               currentOperator = Operations.ADDITION;
+               currentEntry = Double.parseDouble(mainDisplay.toString());
+               setScreen();
+           }
+       }); 
     }
     
     /**
