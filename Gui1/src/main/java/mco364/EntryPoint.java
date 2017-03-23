@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+// As of now all the calculator does is display the numbers that were pressed. There is no math logic yet.
+
+
 class CalcPanel extends JPanel {
     
     //this acts as the window where numbers in the calulator will be displayed.
