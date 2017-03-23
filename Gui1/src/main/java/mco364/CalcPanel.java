@@ -54,9 +54,11 @@ class CalcPanel extends JPanel {
     
     private double currentEntry;
     private Enum currentOperator;
+    private String numberString;
 
     public CalcPanel() {
        
+        numberString = "";
        
        pane = new JTextPane();
        pane.setContentType("text/html");
@@ -314,7 +316,7 @@ class CalcPanel extends JPanel {
        buttonAdd.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               attachToSecondary(" + ");
+               attachToSecondary("&emsp;" + "+");
                currentOperator = Operations.ADDITION;
                currentEntry = Double.parseDouble(mainDisplay.toString());
                setScreen();
@@ -333,7 +335,7 @@ class CalcPanel extends JPanel {
      * append the given string to secondaryDisplay StringBuffer. 
      */
     private void attachToSecondary(String string) {
-         secondaryDisplay.append(string);
+        secondaryDisplay.append(string);
     }
 
    
