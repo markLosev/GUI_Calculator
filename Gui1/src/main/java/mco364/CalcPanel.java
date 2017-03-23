@@ -5,6 +5,25 @@
  */
 package mco364;
 
+
+//***LIFF - I RENAMED THE BUTTONS SO THEY FOLLOW THE FUNCTION (EX, buttonAdd)
+//          ALSO JUST TO MAKE SURE, THE SECONDARY IS THE PREVIOUSLY ENTERED
+//          ENTRY (EX, 7+, 7 GETS PASSED TO THE SECONDARY SCREEN
+//       - ALSO, SERIOUSLY HAS TO BE EASIER WAY FOR THE NUMBER BUTTONS
+//         THIS IS WHAT I USED EARLIER
+//         private class ButtonListener implements ActionListener {
+//
+//                public ButtonListener() {
+//                }
+//
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+//
+//                    String command = e.getActionCommand();
+//                    if (command.matches("\\d") || command.equalsIgnoreCase(".")) {
+//                        currentEntry += command;
+//                        bottom.setText(currentEntry);
+
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
@@ -61,62 +80,62 @@ class CalcPanel extends JPanel {
        // all buttons are set by giving a coordinate on the grid and then 
        // placing it into the Jpanel aka our calcPanel (the name of this class
        // which extends Jpanel.
-       JButton button = new JButton ("MC");
+       JButton buttonMC = new JButton ("MC");
        c.gridx = 0;
        c.gridy = 0;
-       add(button, c);
+       add(buttonMC, c);
        
-       JButton button2 = new JButton ("MR");
+       JButton buttonMR = new JButton ("MR");
        c.gridx = 1;
        c.gridy = 0;
-       add(button2, c);
+       add(buttonMR, c);
        
-       JButton button3 = new JButton ("MS");
+       JButton buttonMS = new JButton ("MS");
        c.gridx = 2;
        c.gridy = 0;
-       add(button3, c);
+       add(buttonMS, c);
        c.gridx = 0;
        
-       JButton button4 = new JButton ("M+");
+       JButton buttonMPlus = new JButton ("M+");
        c.gridx = 3;
        c.gridy = 0;
-       add(button4, c);
+       add(buttonMPlus, c);
        
-       JButton button5 = new JButton ("M-");
+       JButton buttonMMinus = new JButton ("M-");
        c.gridx = 4;
        c.gridy = 0;
-       add(button5, c);
+       add(buttonMMinus, c);
        
-       JButton button6 = new JButton ("\u2190");
+       JButton buttonBackspace = new JButton ("\u2190");
        c.gridx = 0;
        c.gridy = 1;
-       add(button6, c);
+       add(buttonBackspace, c);
        
-       JButton button7 = new JButton ("CE");
+       JButton buttonClearEntry = new JButton ("CE");
        c.gridx = 1;
        c.gridy = 1;
-       add(button7, c);
+       add(buttonClearEntry, c);
        
-       JButton button8 = new JButton ("C");
+       JButton buttonClearAll = new JButton ("C");
        c.gridx = 2;
        c.gridy = 1;
-       add(button8, c);
+       add(buttonClearAll, c);
        
-       JButton button9 = new JButton ("\u00B1");
+       JButton buttonPosNeg = new JButton ("\u00B1");
        c.gridx = 3;
        c.gridy = 1;
-       add(button9, c);
+       add(buttonPosNeg, c);
        
-       JButton button10 = new JButton ("\u221A");
+       JButton buttonSqrt = new JButton ("\u221A");
        c.gridx = 4;
        c.gridy = 1;  
-       add(button10, c);
+       add(buttonSqrt, c);
        
-       JButton button11 = new JButton ("7");
+       JButton button7 = new JButton ("7");
        c.gridx = 0;
        c.gridy = 2;
-       add(button11, c);
-       button11.addActionListener(new ActionListener() {
+       add(button7, c);
+       button7.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                // see documentation of this method.
@@ -128,11 +147,11 @@ class CalcPanel extends JPanel {
            }
        });
        
-       JButton button12 = new JButton ("8");
+       JButton button8 = new JButton ("8");
        c.gridx = 1;
        c.gridy = 2;
-       add(button12, c);
-       button12.addActionListener(new ActionListener() {
+       add(button8, c);
+       button8.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                attachToMain("8");
@@ -141,11 +160,11 @@ class CalcPanel extends JPanel {
            }
        });
        
-       JButton button13 = new JButton ("9");
+       JButton button9 = new JButton ("9");
        c.gridx = 2;
        c.gridy = 2;
-       add(button13, c);
-       button13.addActionListener(new ActionListener() {
+       add(button9, c);
+       button9.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                attachToMain("9");
@@ -154,21 +173,21 @@ class CalcPanel extends JPanel {
            }
        });
        
-       JButton button14 = new JButton ("/");
+       JButton buttonDivide = new JButton ("/");
        c.gridx = 3;
        c.gridy = 2;
-       add(button14, c);
+       add(buttonDivide, c);
        
-       JButton button15 = new JButton ("%");
+       JButton buttonPercent = new JButton ("%");
        c.gridx = 4;
        c.gridy = 2;
-       add(button15, c);
+       add(buttonPercent, c);
        
-       JButton button16 = new JButton ("4");
+       JButton button4 = new JButton ("4");
        c.gridx = 0;
        c.gridy = 3;
-       add(button16, c);
-       button16.addActionListener(new ActionListener() {
+       add(button4, c);
+       button4.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                attachToMain("4");
@@ -177,11 +196,11 @@ class CalcPanel extends JPanel {
            }
        });
        
-       JButton button17 = new JButton ("5");
+       JButton button5 = new JButton ("5");
        c.gridx = 1;
        c.gridy = 3;
-       add(button17, c);
-       button17.addActionListener(new ActionListener() {
+       add(button5, c);
+       button5.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                attachToMain("5");
@@ -190,11 +209,11 @@ class CalcPanel extends JPanel {
            }
        });
        
-       JButton button18 = new JButton ("6");
+       JButton button6 = new JButton ("6");
        c.gridx = 2;
        c.gridy = 3;
-       add(button18, c);
-       button18.addActionListener(new ActionListener() {
+       add(button6, c);
+       button6.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                attachToMain("6");
@@ -203,21 +222,21 @@ class CalcPanel extends JPanel {
            }
        });
        
-       JButton button19 = new JButton ("*");
+       JButton buttonMult = new JButton ("*");
        c.gridx = 3;
        c.gridy = 3;
-       add(button19, c);
+       add(buttonMult, c);
        
-       JButton button20 = new JButton ("1/x");
+       JButton buttonReciprocal = new JButton ("1/x");
        c.gridx = 4;
        c.gridy = 3;
-       add(button20, c);
+       add(buttonReciprocal, c);
        
-       JButton button21 = new JButton ("1");
+       JButton button1 = new JButton ("1");
        c.gridx = 0;
        c.gridy = 4;
-       add(button21, c);
-       button21.addActionListener(new ActionListener() {
+       add(button1, c);
+       button1.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                attachToMain("1");
@@ -226,11 +245,11 @@ class CalcPanel extends JPanel {
            }
        });
        
-       JButton button22 = new JButton ("2");
+       JButton button2 = new JButton ("2");
        c.gridx = 1;
        c.gridy = 4;
-       add(button22, c);
-       button22.addActionListener(new ActionListener() {
+       add(button2, c);
+       button2.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                attachToMain("2");
@@ -239,11 +258,11 @@ class CalcPanel extends JPanel {
            }
        });
        
-       JButton button23 = new JButton ("3");
+       JButton button3 = new JButton ("3");
        c.gridx = 2;
        c.gridy = 4;
-       add(button23, c);
-       button23.addActionListener(new ActionListener() {
+       add(button3, c);
+       button3.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                attachToMain("3");
@@ -252,25 +271,25 @@ class CalcPanel extends JPanel {
            }
        });
        
-       JButton button24 = new JButton ("-");
+       JButton buttonSubtract = new JButton ("-");
        c.gridx = 3;
        c.gridy = 4;
-       add(button24, c);
+       add(buttonSubtract, c);
        
        c.gridheight = 2;
-       JButton button25 = new JButton ("=");
+       JButton buttonEquals = new JButton ("=");
        c.gridx = 4;
        c.gridy = 4;
-       add(button25, c);
+       add(buttonEquals, c);
        c.gridheight = 1;
        
        c.gridwidth = 2;
-       JButton button26 = new JButton ("0");
+       JButton button0 = new JButton ("0");
        c.gridx = 0;
        c.gridy = 5;
-       add(button26, c);
+       add(button0, c);
        c.gridwidth = 1;
-       button26.addActionListener(new ActionListener() {
+       button0.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
                attachToMain("0");
@@ -279,15 +298,15 @@ class CalcPanel extends JPanel {
            }
        });
        
-       JButton button27 = new JButton (".");
+       JButton buttonDec = new JButton (".");
        c.gridx = 2;
        c.gridy = 5;
-       add(button27, c);
+       add(buttonDec, c);
        
-       JButton button28 = new JButton ("+");
+       JButton buttonAdd = new JButton ("+");
        c.gridx = 3;
        c.gridy = 5;
-       add(button28, c);
+       add(buttonAdd, c);
     }
     
     /**
@@ -309,13 +328,16 @@ class CalcPanel extends JPanel {
     // The way I see it we will use them to keep track of what the current operator
     // is before making a calculation (this has not been implemented yet)
     public enum Operations {
-        ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION, SQAUREROOT, RECIPROCAL, PERCENT, EQUALS
+        ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION, SQUAREROOT, RECIPROCAL, PERCENT, EQUALS
     }
     // this method is used in the Calc class in order to retrieve the Jtextpane
     // and place it in the north so it will look like a standard calculator.
     public JTextPane getPane() {
         return pane;
     }
+    
+    
+    //***LIFF - SHOULD WE USE A BOOLEAN FOR THE SAVE OR A STRING AND SEE IF EMPTY?
     
     // This method is used to display our mainDisplay field in the lower right
     // corner of the calculator. As of now this will be done every time a number
