@@ -57,8 +57,6 @@ class CalcPanel extends JPanel {
     private boolean memorySaved;
     
     private double currentEntry;
-   
-    private String string;
     
     public CalcPanel() {
        
@@ -296,9 +294,9 @@ class CalcPanel extends JPanel {
        button0.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               attachToMain("0");
-               attachToSecondary("0");
-               setMainText();             
+                  attachToMain("0");
+                  attachToSecondary("0");
+                  setMainText();   
            }
        });
        
