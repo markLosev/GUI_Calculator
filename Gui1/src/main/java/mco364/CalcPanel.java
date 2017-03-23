@@ -57,7 +57,7 @@ class CalcPanel extends JPanel {
     private boolean memorySaved;
     
     private double currentEntry;
-    private int integer;
+    private int numb;
     
     public CalcPanel() {
        
