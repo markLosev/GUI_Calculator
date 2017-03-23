@@ -62,7 +62,7 @@ class CalcPanel extends JPanel {
        
        pane = new JTextPane();
        pane.setContentType("text/html");
-       pane.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+       pane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
        // This sets the screen to initialy show 0 like in a regular calculator.
        pane.setText("</h1><br><h1>" + "0"+ "</h1>");
        
