@@ -286,6 +286,11 @@ class CalcPanel extends JPanel {
        add(buttonEquals, c);
        c.gridheight = 1;
        
+       /**Corner Cases involving 0
+        if only 0 in mainDisplay    - if press 0, nothing should happen
+        *(just opened / pressed 0)  - if press +,-,/,*,sqrt, decimal, reciprocal, treat as 0
+        *                           - if press 1-9, overwrite 0 (and ten begin to append)
+        */
        c.gridwidth = 2;
        JButton button0 = new JButton ("0");
        c.gridx = 0;
