@@ -24,8 +24,6 @@ class Calc extends JFrame {
         
         add(mainPanel2, BorderLayout.CENTER);
         
-        JLabel statusBar = new JLabel("App has started...");
-        add(statusBar, BorderLayout.SOUTH);
         add(mainPanel2.getPane(), BorderLayout.NORTH);
         
         setVisible(true);
