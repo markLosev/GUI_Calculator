@@ -56,6 +56,8 @@ class CalcPanel extends JPanel {
     // checks if MS was pressed (this hasn't been implemented yet)
     private boolean memorySaved;
     
+    private double currentEntry;
+    
     public CalcPanel() {
        
        
