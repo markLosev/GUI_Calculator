@@ -227,6 +227,13 @@ class CalcPanel extends JPanel {
        c.gridx = 3;
        c.gridy = 2;
        add(buttonDivide, c);
+       buttonDivide.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+              attachToSecondary("&emsp;" + "/" + "&emsp;");
+              setUpOperator(Operations.DIVISION);
+           }
+       });
        
        JButton buttonPercent = new JButton ("%");
        c.gridx = 4;
@@ -318,6 +325,14 @@ class CalcPanel extends JPanel {
        c.gridx = 3;
        c.gridy = 3;
        add(buttonMult, c);
+       buttonMult.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               attachToSecondary("&emsp;" + "*" + "&emsp;");
+               setUpOperator(Operations.MULTIPLICATION);
+           }
+       });
+      
        
        JButton buttonReciprocal = new JButton ("1/x");
        c.gridx = 4;
@@ -409,6 +424,13 @@ class CalcPanel extends JPanel {
        c.gridx = 3;
        c.gridy = 4;
        add(buttonSubtract, c);
+       buttonSubtract.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               attachToSecondary("&emsp;" + "-" + "&emsp;");
+               setUpOperator(Operations.SUBTRACTION);
+           }
+       });
        
        
        /**3 options for what calc does *after* equals (which clear secondaryDisplay)
@@ -489,12 +511,22 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
                attachToSecondary("&emsp;" + "+" + "&emsp;");
-               currentOperator = Operations.ADDITION;
-               currentEntry = Double.parseDouble(mainDisplay.toString());
-               secondaryDisplaySnapShot = secondaryDisplay.toString();
-               setScreen();
+               setUpOperator(Operations.ADDITION);
+//               currentOperator = Operations.ADDITION;
+//               currentEntry = Double.parseDouble(mainDisplay.toString());
+//               secondaryDisplaySnapShot = secondaryDisplay.toString();
+//               setScreen();
            }
+
+          
        }); 
+    }
+    
+    private void setUpOperator(Operations operator) {
+        currentOperator = operator;
+        currentEntry = Double.parseDouble(mainDisplay.toString());
+        secondaryDisplaySnapShot = secondaryDisplay.toString();
+        setScreen();
     }
     
     /**
