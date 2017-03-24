@@ -396,6 +396,12 @@ class CalcPanel extends JPanel {
        c.gridy = 4;
        add(buttonSubtract, c);
        
+       
+       /**3 options for what calc does *after* equals (which clear secondaryDisplay)
+        *   1- Press Number, changes mainDisplay to that Number, start new calculation
+        *   2- Press Operator, continues with that Number
+        *   ((OPTIONAL 3- Press Equals, takes the last operator + number entered & repeats))
+        */  
        c.gridheight = 2;
        JButton buttonEquals = new JButton ("=");
        c.gridx = 4;
