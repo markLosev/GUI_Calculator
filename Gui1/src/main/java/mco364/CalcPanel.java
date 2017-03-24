@@ -139,12 +139,16 @@ class CalcPanel extends JPanel {
        button7.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               // see documentation of this method.
-               attachToMain("7");
-               // ""                              ""
-               attachToSecondary("7");
-               // ""                              ""
-               setMainText();              
+              if (currentOperator == null) {
+                   attachToMain("7");
+                   attachToSecondary("7");
+                   setMainText(); 
+               }
+               else {
+                   mainDisplay.setLength(0);
+                   mainDisplay.append("7");
+                   setScreen();
+               }             
            }
        });
        
@@ -155,9 +159,16 @@ class CalcPanel extends JPanel {
        button8.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               attachToMain("8");
-               attachToSecondary("8");
-               setMainText();              
+               if (currentOperator == null) {
+                   attachToMain("8");
+                   attachToSecondary("8");
+                   setMainText(); 
+               }
+               else {
+                   mainDisplay.setLength(0);
+                   mainDisplay.append("8");
+                   setScreen();
+               }              
            }
        });
        
@@ -168,9 +179,16 @@ class CalcPanel extends JPanel {
        button9.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               attachToMain("9");
-               attachToSecondary("9");
-               setMainText();              
+           if (currentOperator == null) {
+                   attachToMain("9");
+                   attachToSecondary("9");
+                   setMainText(); 
+               }
+               else {
+                   mainDisplay.setLength(0);
+                   mainDisplay.append("9");
+                   setScreen();
+               }              
            }
        });
        
@@ -191,9 +209,16 @@ class CalcPanel extends JPanel {
        button4.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               attachToMain("4");
-               attachToSecondary("4");
-               setMainText();              
+               if (currentOperator == null) {
+                   attachToMain("4");
+                   attachToSecondary("2");
+                   setMainText(); 
+               }
+               else {
+                   mainDisplay.setLength(0);
+                   mainDisplay.append("4");
+                   setScreen();
+               }  ;              
            }
        });
        
@@ -204,9 +229,16 @@ class CalcPanel extends JPanel {
        button5.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               attachToMain("5");
-               attachToSecondary("5");
-               setMainText();              
+             if (currentOperator == null) {
+                   attachToMain("5");
+                   attachToSecondary("5");
+                   setMainText(); 
+               }
+               else {
+                   mainDisplay.setLength(0);
+                   mainDisplay.append("5");
+                   setScreen();
+               }                
            }
        });
        
@@ -217,9 +249,16 @@ class CalcPanel extends JPanel {
        button6.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               attachToMain("6");
-               attachToSecondary("6");
-               setMainText();              
+              if (currentOperator == null) {
+                   attachToMain("6");
+                   attachToSecondary("6");
+                   setMainText(); 
+               }
+               else {
+                   mainDisplay.setLength(0);
+                   mainDisplay.append("6");
+                   setScreen();
+               }               
            }
        });
        
@@ -253,9 +292,16 @@ class CalcPanel extends JPanel {
        button2.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               attachToMain("2");
-               attachToSecondary("2");
-               setMainText();               
+               if (currentOperator == null) {
+                   attachToMain("2");
+                   attachToSecondary("2");
+                   setMainText(); 
+               }
+               else {
+                   mainDisplay.setLength(0);
+                   mainDisplay.append("2");
+                   setScreen();
+               }               
            }
        });
        
@@ -266,9 +312,16 @@ class CalcPanel extends JPanel {
        button3.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               attachToMain("3");
-               attachToSecondary("3");
-               setMainText();              
+             if (currentOperator == null) {
+                   attachToMain("3");
+                   attachToSecondary("3");
+                   setMainText(); 
+               }
+               else {
+                   mainDisplay.setLength(0);
+                   mainDisplay.append("3");
+                   setScreen();
+               }               
            }
        });
        
@@ -298,9 +351,16 @@ class CalcPanel extends JPanel {
        button0.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-                  attachToMain("0");
-                  attachToSecondary("0");
-                  setMainText();   
+                if (currentOperator == null) {
+                   attachToMain("0");
+                   attachToSecondary("0");
+                   setMainText(); 
+               }
+               else {
+                   mainDisplay.setLength(0);
+                   mainDisplay.append("0");
+                   setScreen();
+               }   
            }
        });
        
