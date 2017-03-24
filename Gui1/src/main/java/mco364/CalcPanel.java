@@ -55,6 +55,11 @@ class CalcPanel extends JPanel {
     private double currentEntry;
     private Enum currentOperator;
     private String numberString;
+    
+    
+    //// must be set to false after calculator is cleared
+    
+    private boolean setSecondEntry;
 
     public CalcPanel() {
        
@@ -139,15 +144,21 @@ class CalcPanel extends JPanel {
        button7.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-              if (currentOperator == null) {
+              if (currentOperator == null || setSecondEntry) {
                    attachToMain("7");
                    attachToSecondary("7");
-                   setMainText(); 
+                   if (currentOperator == null) {
+                       setMainText(); 
+                   }
+                   else {
+                       setScreen();
+                   }
                }
                else {
                    mainDisplay.setLength(0);
                    mainDisplay.append("7");
                    setScreen();
+                   setSecondEntry = true;
                }             
            }
        });
@@ -159,15 +170,21 @@ class CalcPanel extends JPanel {
        button8.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               if (currentOperator == null) {
+               if (currentOperator == null || setSecondEntry) {
                    attachToMain("8");
                    attachToSecondary("8");
-                   setMainText(); 
+                   if (currentOperator == null) {
+                       setMainText(); 
+                   }
+                   else {
+                       setScreen();
+                   } 
                }
                else {
                    mainDisplay.setLength(0);
                    mainDisplay.append("8");
                    setScreen();
+                   setSecondEntry = true;
                }              
            }
        });
@@ -179,15 +196,21 @@ class CalcPanel extends JPanel {
        button9.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-           if (currentOperator == null) {
+              if (currentOperator == null || setSecondEntry) {
                    attachToMain("9");
                    attachToSecondary("9");
-                   setMainText(); 
+                   if (currentOperator == null) {
+                       setMainText(); 
+                   }
+                   else {
+                       setScreen();
+                   }
                }
                else {
                    mainDisplay.setLength(0);
                    mainDisplay.append("9");
                    setScreen();
+                   setSecondEntry = true;
                }              
            }
        });
@@ -209,16 +232,22 @@ class CalcPanel extends JPanel {
        button4.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               if (currentOperator == null) {
+              if (currentOperator == null || setSecondEntry) {
                    attachToMain("4");
                    attachToSecondary("2");
-                   setMainText(); 
-               }
-               else {
+                 if (currentOperator == null) {
+                       setMainText(); 
+                 }
+                 else {
+                       setScreen();
+                 }                  
+              }
+              else {
                    mainDisplay.setLength(0);
                    mainDisplay.append("4");
                    setScreen();
-               }  ;              
+                   setSecondEntry = true;
+               }              
            }
        });
        
@@ -229,16 +258,22 @@ class CalcPanel extends JPanel {
        button5.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-             if (currentOperator == null) {
+             if (currentOperator == null || setSecondEntry) {
                    attachToMain("5");
                    attachToSecondary("5");
-                   setMainText(); 
-               }
-               else {
-                   mainDisplay.setLength(0);
-                   mainDisplay.append("5");
-                   setScreen();
-               }                
+                 if (currentOperator == null) {
+                     setMainText(); 
+                 }
+                 else {
+                       setScreen();
+                 }
+             }
+             else {
+                 mainDisplay.setLength(0);
+                 mainDisplay.append("5");
+                 setScreen();
+                 setSecondEntry = true;
+             }                
            }
        });
        
@@ -249,15 +284,21 @@ class CalcPanel extends JPanel {
        button6.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-              if (currentOperator == null) {
+               if (currentOperator == null || setSecondEntry) {
                    attachToMain("6");
                    attachToSecondary("6");
-                   setMainText(); 
+                   if (currentOperator == null) {
+                       setMainText(); 
+                   }
+                   else {
+                       setScreen();
+                   } 
                }
                else {
                    mainDisplay.setLength(0);
                    mainDisplay.append("6");
                    setScreen();
+                   setSecondEntry = true;
                }               
            }
        });
@@ -279,9 +320,22 @@ class CalcPanel extends JPanel {
        button1.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               attachToMain("1");
-               attachToSecondary("1");
-               setMainText();              
+               if (currentOperator == null || setSecondEntry) {
+                   attachToMain("1");
+                   attachToSecondary("1");
+                    if (currentOperator == null) {
+                       setMainText(); 
+                    }
+                    else {
+                       setScreen();
+                    }
+               }
+               else {
+                   mainDisplay.setLength(0);
+                   mainDisplay.append("1");
+                   setScreen();
+                   setSecondEntry = true;
+               }               
            }
        });
        
@@ -292,15 +346,21 @@ class CalcPanel extends JPanel {
        button2.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               if (currentOperator == null) {
+               if (currentOperator == null || setSecondEntry) {
                    attachToMain("2");
                    attachToSecondary("2");
-                   setMainText(); 
+                  if (currentOperator == null) {
+                       setMainText(); 
+                  }
+                  else {
+                      setScreen();
+                  } 
                }
                else {
                    mainDisplay.setLength(0);
                    mainDisplay.append("2");
                    setScreen();
+                   setSecondEntry = true;
                }               
            }
        });
@@ -312,15 +372,21 @@ class CalcPanel extends JPanel {
        button3.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-             if (currentOperator == null) {
+               if (currentOperator == null || setSecondEntry) {
                    attachToMain("3");
                    attachToSecondary("3");
-                   setMainText(); 
+                   if (currentOperator == null) {
+                       setMainText(); 
+                   }
+                   else {
+                       setScreen();
+                   } 
                }
                else {
                    mainDisplay.setLength(0);
                    mainDisplay.append("3");
                    setScreen();
+                   setSecondEntry = true;
                }               
            }
        });
@@ -341,7 +407,9 @@ class CalcPanel extends JPanel {
         if only 0 in mainDisplay    - if press 0, nothing should happen
         *(just opened / pressed 0)  - if press +,-,/,*,sqrt, decimal, reciprocal, treat as 0
         *                           - if press 1-9, overwrite 0 (and ten begin to append)
+        *                           - we need to set a reciprocal error.
         */
+       
        c.gridwidth = 2;
        JButton button0 = new JButton ("0");
        c.gridx = 0;
@@ -351,15 +419,21 @@ class CalcPanel extends JPanel {
        button0.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-                if (currentOperator == null) {
+                if (currentOperator == null || setSecondEntry) {
                    attachToMain("0");
                    attachToSecondary("0");
-                   setMainText(); 
+                   if (currentOperator == null) {
+                       setMainText(); 
+                   }
+                   else {
+                       setScreen();
+                   } 
                }
                else {
                    mainDisplay.setLength(0);
                    mainDisplay.append("0");
                    setScreen();
+                   setSecondEntry = true;
                }   
            }
        });
@@ -376,7 +450,7 @@ class CalcPanel extends JPanel {
        buttonAdd.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               attachToSecondary("&emsp;" + "+");
+               attachToSecondary("&emsp;" + "+" + "&emsp;");
                currentOperator = Operations.ADDITION;
                currentEntry = Double.parseDouble(mainDisplay.toString());
                setScreen();
