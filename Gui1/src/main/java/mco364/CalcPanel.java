@@ -76,8 +76,14 @@ class CalcPanel extends JPanel {
        // This sets the screen to initialy show 0 like in a regular calculator.
        pane.setText("</h1><br><h1>" + "0"+ "</h1>");
        
+       
+       
        mainDisplay = new StringBuilder();
        secondaryDisplay = new StringBuilder();
+//       
+//        attachToMain("0");
+//        attachToSecondary("0");
+//        setMainText();
        
        setLayout (new GridBagLayout ());
        GridBagConstraints c = new GridBagConstraints ();
