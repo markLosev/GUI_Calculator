@@ -55,6 +55,7 @@ class CalcPanel extends JPanel {
     private double currentEntry;
     private Enum currentOperator;
     private String numberString;
+    private String secondaryDisplaySnapShot;
     
     
     //// must be set to false after calculator is cleared
@@ -63,7 +64,7 @@ class CalcPanel extends JPanel {
 
     public CalcPanel() {
        
-        numberString = "";
+       numberString = "";
        
        pane = new JTextPane();
        pane.setContentType("text/html");
@@ -156,7 +157,8 @@ class CalcPanel extends JPanel {
                }
                else {
                    mainDisplay.setLength(0);
-                   mainDisplay.append("7");
+                   attachToMain("7");
+                   attachToSecondary("7");
                    setScreen();
                    setSecondEntry = true;
                }             
@@ -182,7 +184,8 @@ class CalcPanel extends JPanel {
                }
                else {
                    mainDisplay.setLength(0);
-                   mainDisplay.append("8");
+                   attachToMain("8");
+                   attachToSecondary("8");
                    setScreen();
                    setSecondEntry = true;
                }              
@@ -208,7 +211,8 @@ class CalcPanel extends JPanel {
                }
                else {
                    mainDisplay.setLength(0);
-                   mainDisplay.append("9");
+                   attachToMain("9");
+                   attachToSecondary("9");
                    setScreen();
                    setSecondEntry = true;
                }              
@@ -234,7 +238,7 @@ class CalcPanel extends JPanel {
            public void actionPerformed(ActionEvent e) {
               if (currentOperator == null || setSecondEntry) {
                    attachToMain("4");
-                   attachToSecondary("2");
+                   attachToSecondary("4");
                  if (currentOperator == null) {
                        setMainText(); 
                  }
@@ -244,7 +248,8 @@ class CalcPanel extends JPanel {
               }
               else {
                    mainDisplay.setLength(0);
-                   mainDisplay.append("4");
+                   attachToMain("4");
+                   attachToSecondary("4");
                    setScreen();
                    setSecondEntry = true;
                }              
@@ -270,7 +275,8 @@ class CalcPanel extends JPanel {
              }
              else {
                  mainDisplay.setLength(0);
-                 mainDisplay.append("5");
+                attachToMain("5");
+                 attachToSecondary("5");
                  setScreen();
                  setSecondEntry = true;
              }                
@@ -296,7 +302,8 @@ class CalcPanel extends JPanel {
                }
                else {
                    mainDisplay.setLength(0);
-                   mainDisplay.append("6");
+                   attachToMain("6");
+                   attachToSecondary("6");
                    setScreen();
                    setSecondEntry = true;
                }               
@@ -332,7 +339,8 @@ class CalcPanel extends JPanel {
                }
                else {
                    mainDisplay.setLength(0);
-                   mainDisplay.append("1");
+                   attachToMain("1");
+                   attachToSecondary("1");
                    setScreen();
                    setSecondEntry = true;
                }               
@@ -358,7 +366,8 @@ class CalcPanel extends JPanel {
                }
                else {
                    mainDisplay.setLength(0);
-                   mainDisplay.append("2");
+                   attachToMain("2");
+                   attachToSecondary("2");
                    setScreen();
                    setSecondEntry = true;
                }               
@@ -384,7 +393,8 @@ class CalcPanel extends JPanel {
                }
                else {
                    mainDisplay.setLength(0);
-                   mainDisplay.append("3");
+                   attachToMain("3");
+                   attachToSecondary("3");
                    setScreen();
                    setSecondEntry = true;
                }               
@@ -434,10 +444,11 @@ class CalcPanel extends JPanel {
                    else {
                        setScreen();
                    } 
-               }
-               else {
+                }
+                else {
                    mainDisplay.setLength(0);
-                   mainDisplay.append("0");
+                   attachToMain("0");
+                   attachToSecondary("0");
                    setScreen();
                    setSecondEntry = true;
                }   
@@ -459,6 +470,7 @@ class CalcPanel extends JPanel {
                attachToSecondary("&emsp;" + "+" + "&emsp;");
                currentOperator = Operations.ADDITION;
                currentEntry = Double.parseDouble(mainDisplay.toString());
+               secondaryDisplaySnapShot = secondaryDisplay.toString();
                setScreen();
            }
        }); 
@@ -514,10 +526,10 @@ class CalcPanel extends JPanel {
     // tinker with it anymore.
     public void setScreen() {
        if (!memorySaved) {
-            pane.setText("<small>" + secondaryDisplay + "</small><br><h1>" + mainDisplay + "</h1>");
+            pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + mainDisplay + "</h1>");
        }
        else {
-            pane.setText("<small>" + secondaryDisplay + "</small><br><h1>" + mainDisplay + "</h1><br><h1>" + whiteSpace + "M" + "</h1>"); 
+            pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + mainDisplay + "</h1><br><h1>" + whiteSpace + "M" + "</h1>"); 
       }
     }
 }
