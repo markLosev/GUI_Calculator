@@ -53,7 +53,10 @@ class CalcPanel extends JPanel {
     private boolean memorySaved;
     
     private double currentEntry;
-    private Enum currentOperator;
+    private double secondEntry;
+    private double answer;
+    private MathLogic logic;
+    private Operations currentOperator;
     private String numberString;
     private String secondaryDisplaySnapShot;
     
@@ -65,6 +68,7 @@ class CalcPanel extends JPanel {
     public CalcPanel() {
        
        numberString = "";
+       logic = new MathLogic();
        
        pane = new JTextPane();
        pane.setContentType("text/html");
@@ -418,6 +422,23 @@ class CalcPanel extends JPanel {
        c.gridy = 4;
        add(buttonEquals, c);
        c.gridheight = 1;
+       buttonEquals.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               if (currentOperator == null) {
+                   setMainText();
+               }
+               else {
+                   secondEntry = Double.parseDouble(mainDisplay.toString());
+                   System.out.println(secondEntry);
+                   answer = logic.calculate(currentEntry, secondEntry, currentOperator);
+                   mainDisplay.setLength(0);
+                   attachToMain(Double.toString(answer));
+                   setMainText();
+                   
+               }
+           }
+       });
        
        /**Corner Cases involving 0
         if only 0 in mainDisplay    - if press 0, nothing should happen
