@@ -620,7 +620,7 @@ class CalcPanel extends JPanel {
         }
     }
     
-     public void calculate() throws NumberFormatException {
+   public void calculate() throws NumberFormatException {
         secondEntry = Double.parseDouble(mainDisplay.toString());
         answer = logic.calculate(currentEntry, secondEntry, currentOperator);
         flush(mainDisplay);
