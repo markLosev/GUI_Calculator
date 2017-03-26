@@ -24,10 +24,6 @@ class MathLogic {
                  answer = firstNumber / secondNumber;
                  break;
                  
-             case SQUAREROOT:
-                 answer = Math.sqrt(firstNumber);
-                 break;
-                 
              case PERCENT:
                  answer = percent(firstNumber, secondNumber);
          }
@@ -37,5 +33,9 @@ class MathLogic {
     
     private double percent(double firstNumber, double secondNumber) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public double sqrt(double num) {
+        return Math.sqrt(num);
     }
 }
