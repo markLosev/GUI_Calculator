@@ -470,7 +470,7 @@ class CalcPanel extends JPanel {
                    secondEntry = Double.parseDouble(mainDisplay.toString());
                    answer = logic.calculate(currentEntry, secondEntry, currentOperator);
                    flush(mainDisplay);
-                   if (!(Double.toString(answer).matches("\\d+\\.0$"))) {
+                   if (!(Double.toString(answer).matches("\\-?\\d+\\.0$"))) {
                        attachToMain(Double.toString(answer));
                    }
                    else {
@@ -578,13 +578,9 @@ class CalcPanel extends JPanel {
      */
     public int trimDouble(double num) {
         String str = "" + num;
-        int number = 0;
-        if (str.matches("\\d+\\.0$")) {
-            DecimalFormat formatter = new DecimalFormat("0.##");
-            str = formatter.format(num);
-            number =  Integer.parseInt(str);          
-        }
-        return number;
+        DecimalFormat formatter = new DecimalFormat("0.##");
+        str = formatter.format(num);
+        return Integer.parseInt(str);          
     }
     
     
