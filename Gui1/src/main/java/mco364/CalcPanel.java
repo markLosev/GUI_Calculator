@@ -27,6 +27,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
@@ -57,7 +59,6 @@ class CalcPanel extends JPanel {
     private double answer;
     private MathLogic logic;
     private Operations currentOperator;
-    private String numberString;
     private String secondaryDisplaySnapShot;
     
     
@@ -67,7 +68,6 @@ class CalcPanel extends JPanel {
 
     public CalcPanel() {
        
-       numberString = "";
        logic = new MathLogic();
        
        pane = new JTextPane();
@@ -458,12 +458,16 @@ class CalcPanel extends JPanel {
                }
                else {
                    secondEntry = Double.parseDouble(mainDisplay.toString());
-                   System.out.println(secondEntry);
                    answer = logic.calculate(currentEntry, secondEntry, currentOperator);
                    flush(mainDisplay);
-                   attachToMain(Double.toString(answer));
+                   if (!(Double.toString(answer).matches("\\d+\\.0$"))) {
+                       attachToMain(Double.toString(answer));
+                   }
+                   else {
+                       int number = trimDouble(answer); 
+                       attachToMain(Integer.toString(number));
+                   }
                    setMainText();
-                   
                }
            }
        });
@@ -562,6 +566,21 @@ class CalcPanel extends JPanel {
         return pane;
     }
     
+    /**
+     * This method will trim the end of a number if it ends in .0 ie. 2.0
+     * will become 2.
+     */
+    public int trimDouble(double num) {
+        String str = "" + num;
+        int number = 0;
+        if (str.matches("\\d+\\.0$")) {
+            DecimalFormat formatter = new DecimalFormat("0.##");
+            str = formatter.format(num);
+            number =  Integer.parseInt(str);          
+        }
+        return number;
+    }
+    
     
     //***LIFF - SHOULD WE USE A BOOLEAN FOR THE SAVE OR A STRING AND SEE IF EMPTY?
     
@@ -589,7 +608,7 @@ class CalcPanel extends JPanel {
             pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + mainDisplay + "</h1><br><h1>" + whiteSpace + "M" + "</h1>"); 
       }
     }
-    
+   
     public void flush(StringBuilder builder) {
         builder.setLength(0);
     }
