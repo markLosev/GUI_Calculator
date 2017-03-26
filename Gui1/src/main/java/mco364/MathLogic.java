@@ -64,7 +64,7 @@ class MathLogic {
 
     private double divide(double firstNumber, double secondNumber) {
         double number = 0;
-        number = firstNumber + secondNumber;
+        number = firstNumber / secondNumber;
         return number;
     }
 
