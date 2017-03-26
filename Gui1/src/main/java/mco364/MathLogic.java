@@ -14,8 +14,7 @@ import mco364.CalcPanel.Operations;
 class MathLogic {
     
     public double calculate(double firstNumber, double secondNumber, Operations operator) {
-        double answer = 0;
-  //ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION, SQUAREROOT, RECIPROCAL, PERCENT, EQUALS
+         double answer = 0;
          switch (operator) {
              case ADDITION:
                  answer = add(firstNumber, secondNumber);
