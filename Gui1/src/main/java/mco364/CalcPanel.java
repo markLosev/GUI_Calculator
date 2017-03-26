@@ -133,9 +133,23 @@ class CalcPanel extends JPanel {
        buttonSqrt.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               attachToSecondary("sqrt(" + mainDisplay.toString() + ")");
-               logic.sqrt(4.0);
-               
+               if (currentOperator == null) {
+                   flush(secondaryDisplay);
+               }
+               attachToSecondary(" sqrt(" + mainDisplay.toString() + ")");
+               currentEntry = Double.parseDouble(mainDisplay.toString());
+               answer = logic.sqrt(currentEntry);
+               flush(mainDisplay);
+               if (!(Double.toString(answer).matches("\\-?\\d+\\.0$"))) {
+                    attachToMain(Double.toString(answer));
+               }
+               else {
+                   int number = trimDouble(answer);
+                   attachToMain(Integer.toString(number));
+               }  
+               equationCalculated = true;
+               secondaryDisplaySnapShot = secondaryDisplay.toString();
+               setScreen();
            }
        });
        
