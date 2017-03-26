@@ -164,14 +164,14 @@ class CalcPanel extends JPanel {
                    else {
                        setScreen();
                    }
-               }
-               else {
-                   mainDisplay.setLength(0);
+              }
+              else {
+                   flush(mainDisplay);
                    attachToMain("7");
                    attachToSecondary("7");
                    setScreen();
                    setSecondEntry = true;
-               }             
+              }             
            }
        });
        
@@ -193,7 +193,7 @@ class CalcPanel extends JPanel {
                    } 
                }
                else {
-                   mainDisplay.setLength(0);
+                   flush(mainDisplay);
                    attachToMain("8");
                    attachToSecondary("8");
                    setScreen();
@@ -220,7 +220,7 @@ class CalcPanel extends JPanel {
                    }
                }
                else {
-                   mainDisplay.setLength(0);
+                   flush(mainDisplay);
                    attachToMain("9");
                    attachToSecondary("9");
                    setScreen();
@@ -264,7 +264,7 @@ class CalcPanel extends JPanel {
                  }                  
               }
               else {
-                   mainDisplay.setLength(0);
+                   flush(mainDisplay);
                    attachToMain("4");
                    attachToSecondary("4");
                    setScreen();
@@ -291,8 +291,8 @@ class CalcPanel extends JPanel {
                  }
              }
              else {
-                 mainDisplay.setLength(0);
-                attachToMain("5");
+                 flush(mainDisplay);
+                 attachToMain("5");
                  attachToSecondary("5");
                  setScreen();
                  setSecondEntry = true;
@@ -318,7 +318,7 @@ class CalcPanel extends JPanel {
                    } 
                }
                else {
-                   mainDisplay.setLength(0);
+                   flush(mainDisplay);
                    attachToMain("6");
                    attachToSecondary("6");
                    setScreen();
@@ -363,7 +363,7 @@ class CalcPanel extends JPanel {
                     }
                }
                else {
-                   mainDisplay.setLength(0);
+                   flush(mainDisplay);
                    attachToMain("1");
                    attachToSecondary("1");
                    setScreen();
@@ -390,7 +390,7 @@ class CalcPanel extends JPanel {
                   } 
                }
                else {
-                   mainDisplay.setLength(0);
+                   flush(mainDisplay);
                    attachToMain("2");
                    attachToSecondary("2");
                    setScreen();
@@ -417,7 +417,7 @@ class CalcPanel extends JPanel {
                    } 
                }
                else {
-                   mainDisplay.setLength(0);
+                   flush(mainDisplay);
                    attachToMain("3");
                    attachToSecondary("3");
                    setScreen();
@@ -460,7 +460,7 @@ class CalcPanel extends JPanel {
                    secondEntry = Double.parseDouble(mainDisplay.toString());
                    System.out.println(secondEntry);
                    answer = logic.calculate(currentEntry, secondEntry, currentOperator);
-                   mainDisplay.setLength(0);
+                   flush(mainDisplay);
                    attachToMain(Double.toString(answer));
                    setMainText();
                    
@@ -494,8 +494,8 @@ class CalcPanel extends JPanel {
                        setScreen();
                    } 
                 }
-                else {
-                   mainDisplay.setLength(0);
+                else {                  
+                   flush(mainDisplay);
                    attachToMain("0");
                    attachToSecondary("0");
                    setScreen();
@@ -580,9 +580,7 @@ class CalcPanel extends JPanel {
     // This sets the secondaryDisplay and the mainDisplay. The calculator will never 
     // show the secondary display without the mainDisplay so there is no individual method
     // for setting the text of the secondaryDisplay alon.
-    
-    // Don't worry about the html, to my knowledge I don't think we will need to
-    // tinker with it anymore.
+
     public void setScreen() {
        if (!memorySaved) {
             pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + mainDisplay + "</h1>");
@@ -590,5 +588,14 @@ class CalcPanel extends JPanel {
        else {
             pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + mainDisplay + "</h1><br><h1>" + whiteSpace + "M" + "</h1>"); 
       }
+    }
+    
+    public void flush(StringBuilder builder) {
+        builder.setLength(0);
+    }
+    
+    public void flush(StringBuilder builder1, StringBuilder builder2) {
+        builder1.setLength(0);
+        builder2.setLength(0);
     }
 }
