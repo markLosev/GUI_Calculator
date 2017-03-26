@@ -60,6 +60,7 @@ class CalcPanel extends JPanel {
     private MathLogic logic;
     private Operations currentOperator;
     private String secondaryDisplaySnapShot;
+    private boolean equationCalculated;
     
     
     //// must be set to false after calculator is cleared
@@ -155,6 +156,7 @@ class CalcPanel extends JPanel {
        button7.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+              checkNewCalculation();
               if (currentOperator == null || setSecondEntry) {
                    attachToMain("7");
                    attachToSecondary("7");
@@ -182,6 +184,7 @@ class CalcPanel extends JPanel {
        button8.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+               checkNewCalculation();
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("8");
                    attachToSecondary("8");
@@ -209,6 +212,7 @@ class CalcPanel extends JPanel {
        button9.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+              checkNewCalculation();
               if (currentOperator == null || setSecondEntry) {
                    attachToMain("9");
                    attachToSecondary("9");
@@ -253,6 +257,7 @@ class CalcPanel extends JPanel {
        button4.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+              checkNewCalculation();
               if (currentOperator == null || setSecondEntry) {
                    attachToMain("4");
                    attachToSecondary("4");
@@ -280,6 +285,7 @@ class CalcPanel extends JPanel {
        button5.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+             checkNewCalculation();
              if (currentOperator == null || setSecondEntry) {
                    attachToMain("5");
                    attachToSecondary("5");
@@ -307,6 +313,7 @@ class CalcPanel extends JPanel {
        button6.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+               checkNewCalculation();
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("6");
                    attachToSecondary("6");
@@ -352,6 +359,7 @@ class CalcPanel extends JPanel {
        button1.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+               checkNewCalculation();
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("1");
                    attachToSecondary("1");
@@ -379,6 +387,7 @@ class CalcPanel extends JPanel {
        button2.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+               checkNewCalculation();
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("2");
                    attachToSecondary("2");
@@ -406,6 +415,7 @@ class CalcPanel extends JPanel {
        button3.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+               checkNewCalculation();
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("3");
                    attachToSecondary("3");
@@ -468,6 +478,7 @@ class CalcPanel extends JPanel {
                        attachToMain(Integer.toString(number));
                    }
                    setMainText();
+                   equationCalculated = true;
                }
            }
        });
@@ -488,6 +499,7 @@ class CalcPanel extends JPanel {
        button0.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+                checkNewCalculation();
                 if (currentOperator == null || setSecondEntry) {
                    attachToMain("0");
                    attachToSecondary("0");
@@ -522,13 +534,7 @@ class CalcPanel extends JPanel {
            public void actionPerformed(ActionEvent e) {
                attachToSecondary("&emsp;" + "+" + "&emsp;");
                setUpOperator(Operations.ADDITION);
-//               currentOperator = Operations.ADDITION;
-//               currentEntry = Double.parseDouble(mainDisplay.toString());
-//               secondaryDisplaySnapShot = secondaryDisplay.toString();
-//               setScreen();
-           }
-
-          
+           }         
        }); 
     }
     
@@ -616,5 +622,16 @@ class CalcPanel extends JPanel {
     public void flush(StringBuilder builder1, StringBuilder builder2) {
         builder1.setLength(0);
         builder2.setLength(0);
+    }
+    
+    public void checkNewCalculation() {
+        if (equationCalculated) {
+            equationCalculated = false;
+            flush(mainDisplay,secondaryDisplay);
+            currentOperator = null;
+            currentEntry = 0;
+            secondEntry = 0;
+            setSecondEntry = false;
+        }
     }
 }
