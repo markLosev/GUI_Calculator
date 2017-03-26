@@ -2,24 +2,6 @@
 package mco364;
 
 
-//***LIFF - I RENAMED THE BUTTONS SO THEY FOLLOW THE FUNCTION (EX, buttonAdd)
-//          ALSO JUST TO MAKE SURE, THE SECONDARY IS THE PREVIOUSLY ENTERED
-//          ENTRY (EX, 7+, 7 GETS PASSED TO THE SECONDARY SCREEN
-//       - ALSO, SERIOUSLY HAS TO BE EASIER WAY FOR THE NUMBER BUTTONS
-//         THIS IS WHAT I USED EARLIER
-//         private class ButtonListener implements ActionListener {
-//
-//                public ButtonListener() {
-//                }
-//
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-//
-//                    String command = e.getActionCommand();
-//                    if (command.matches("\\d") || command.equalsIgnoreCase(".")) {
-//                        currentEntry += command;
-//                        bottom.setText(currentEntry);
-
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.GridBagConstraints;
