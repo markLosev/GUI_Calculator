@@ -467,18 +467,7 @@ class CalcPanel extends JPanel {
                    setMainText();
                }
                else {
-                   secondEntry = Double.parseDouble(mainDisplay.toString());
-                   answer = logic.calculate(currentEntry, secondEntry, currentOperator);
-                   flush(mainDisplay);
-                   if (!(Double.toString(answer).matches("\\-?\\d+\\.0$"))) {
-                       attachToMain(Double.toString(answer));
-                   }
-                   else {
-                       int number = trimDouble(answer); 
-                       attachToMain(Integer.toString(number));
-                   }
-                   setMainText();
-                   equationCalculated = true;
+                   calculate();
                }
            }
        });
@@ -629,5 +618,20 @@ class CalcPanel extends JPanel {
             secondEntry = 0;
             setSecondEntry = false;
         }
+    }
+    
+     public void calculate() throws NumberFormatException {
+        secondEntry = Double.parseDouble(mainDisplay.toString());
+        answer = logic.calculate(currentEntry, secondEntry, currentOperator);
+        flush(mainDisplay);
+        if (!(Double.toString(answer).matches("\\-?\\d+\\.0$"))) {
+               attachToMain(Double.toString(answer));
+        }
+        else {
+               int number = trimDouble(answer);
+               attachToMain(Integer.toString(number));
+        }
+        setMainText();
+        equationCalculated = true;
     }
 }
