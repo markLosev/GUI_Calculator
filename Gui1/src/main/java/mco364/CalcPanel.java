@@ -130,6 +130,14 @@ class CalcPanel extends JPanel {
        c.gridx = 4;
        c.gridy = 1;  
        add(buttonSqrt, c);
+       buttonSqrt.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               attachToSecondary("sqrt(" + mainDisplay.toString() + ")");
+               logic.sqrt(4.0);
+               
+           }
+       });
        
        JButton button7 = new JButton ("7");
        c.gridx = 0;
