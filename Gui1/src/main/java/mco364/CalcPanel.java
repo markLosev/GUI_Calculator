@@ -43,12 +43,12 @@ class CalcPanel extends JPanel {
     private Operations currentOperator;
     private String secondaryDisplaySnapShot;
     private boolean equationCalculated;
+    private boolean decPressed;
     
     
     //// must be set to false after calculator is cleared
     
     private boolean setSecondEntry;
-    private boolean previousOperator;
 
     public CalcPanel() {
        
@@ -134,30 +134,17 @@ class CalcPanel extends JPanel {
            public void actionPerformed(ActionEvent e) {
                if(Double.parseDouble(mainDisplay.toString()) >= 0) { 
                    double num = 0;
-                   removeLastIndex(secondaryDisplay);
-                   attachToSecondary(" sqrt(" + mainDisplay.toString() + ")");
+                   prepPreFix("sqrt");
                    num = Double.parseDouble(mainDisplay.toString());
                    answer = logic.sqrt(num);
                    flush(mainDisplay);
-                   if (!(Double.toString(answer).matches("\\-?\\d+\\.0$"))) {
-                        attachToMain(Double.toString(answer));
-                   }
-                   else {
-                     int number = trimDouble(answer);
-                     attachToMain(Integer.toString(number));
-                   }  
+                   checkTrailingZeroes();
                    equationCalculated = true;
                    secondaryDisplaySnapShot = secondaryDisplay.toString();
                    setScreen();
                }
                else {
-                   if (!memorySaved) {
-                       pane.setText("<small>" + " sqrt(" + mainDisplay.toString() + ")" + "</small><br><h1>" + "invalid input" + "</h1>");
-                   }
-                   else {
-                      pane.setText("<small>" + " sqrt(" + mainDisplay.toString() + "</small><br><h1>" + "invalic input" + "</h1><br><h1>" + whiteSpace + "M" + "</h1>"); 
-                   }
-                   equationCalculated = true;
+                   displayError("sqrt", "invalid input");
                }
            }
        });
@@ -364,7 +351,27 @@ class CalcPanel extends JPanel {
        c.gridx = 4;
        c.gridy = 3;
        add(buttonReciprocal, c);
-       
+       buttonReciprocal.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+                if(Double.parseDouble(mainDisplay.toString()) > 0 || Double.parseDouble(mainDisplay.toString()) < 0) { 
+                   double num = 0;
+                   prepPreFix("reciproc");
+                   num = Double.parseDouble(mainDisplay.toString());
+                   answer = logic.reciprocal(num);
+                   flush(mainDisplay);
+                   checkTrailingZeroes();
+                   equationCalculated = true;
+                   secondaryDisplaySnapShot = secondaryDisplay.toString();
+                   setScreen();
+               }
+               else {
+                   displayError("reciproc", "cannot divide by zero");
+               }
+           }
+           
+       });
+        
        JButton button1 = new JButton ("1");
        c.gridx = 0;
        c.gridy = 4;
@@ -526,7 +533,18 @@ class CalcPanel extends JPanel {
        c.gridx = 2;
        c.gridy = 5;
        add(buttonDec, c);
-       
+       buttonDec.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               if (!(decPressed)) {
+                   attachToMain(".");
+                   attachToSecondary(".");
+                   setMainText(); 
+                   decPressed = true;
+               }
+           }
+       });
+        
        JButton buttonAdd = new JButton ("+");
        c.gridx = 3;
        c.gridy = 5;
@@ -553,6 +571,7 @@ class CalcPanel extends JPanel {
         currentEntry = Double.parseDouble(mainDisplay.toString());
         secondaryDisplaySnapShot = secondaryDisplay.toString();
         equationCalculated = false;
+        decPressed = false;
         setScreen();
     }
     
@@ -645,6 +664,7 @@ class CalcPanel extends JPanel {
             currentEntry = 0;
             secondEntry = 0;
             setSecondEntry = false;
+            decPressed = false;
         }
     }
     
@@ -661,6 +681,11 @@ class CalcPanel extends JPanel {
         secondEntry = Double.parseDouble(mainDisplay.toString());
         answer = logic.calculate(currentEntry, secondEntry, currentOperator);
         flush(mainDisplay);
+        checkTrailingZeroes();
+        decPressed = false;
+    }
+    
+    public void checkTrailingZeroes() {
         if (!(Double.toString(answer).matches("\\-?\\d+\\.0$"))) {
             attachToMain(Double.toString(answer));
         }
@@ -669,10 +694,26 @@ class CalcPanel extends JPanel {
             attachToMain(Integer.toString(number));
         }
     }
+    
     public void removeLastIndex(StringBuilder builder) {
        String str = builder.toString();
        flush(builder);
        str = str.substring(0, str.length() - 1);
        builder.append(str);
+   }
+    
+   public void displayError(String function, String error) {
+       if (!memorySaved) {
+           pane.setText("<small>" +  function + "(" + mainDisplay.toString() + ")" + "</small><br><h1>" + error + "</h1>");       
+       }
+       else {
+           pane.setText("<small>" + function + "(" + mainDisplay.toString() + "</small><br><h1>" + error + "</h1><br><h1>" + whiteSpace + "M" + "</h1>"); 
+       }
+       equationCalculated = true;
+   }
+   
+   public void prepPreFix(String str) {
+       removeLastIndex(secondaryDisplay);
+       attachToSecondary( str + "(" + mainDisplay.toString() + ")");
    }
 }
