@@ -9,10 +9,7 @@ class MathLogic {
          double answer = 0;
          switch (operator) {
              case ADDITION:
-                 System.out.println("first number is: " + firstNumber);
-                 System.out.println("second number is: " + secondNumber);
                  answer = firstNumber + secondNumber;
-                 System.out.println(answer);
                  break;
              
              case SUBTRACTION:
