@@ -48,6 +48,7 @@ class CalcPanel extends JPanel {
     //// must be set to false after calculator is cleared
     
     private boolean setSecondEntry;
+    private boolean previousOperator;
 
     public CalcPanel() {
        
@@ -70,8 +71,6 @@ class CalcPanel extends JPanel {
        
        setLayout (new GridBagLayout ());
        GridBagConstraints c = new GridBagConstraints ();
-       // These are global variables that are set for all buttons that are used
-       // we already discussed what they are doing.
        c.weightx = 1.0;
        c.weighty = 1.0;
        c.fill = c.BOTH;
@@ -133,23 +132,33 @@ class CalcPanel extends JPanel {
        buttonSqrt.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               if (currentOperator == null) {
-                   flush(secondaryDisplay);
-               }
-               attachToSecondary(" sqrt(" + mainDisplay.toString() + ")");
-               currentEntry = Double.parseDouble(mainDisplay.toString());
-               answer = logic.sqrt(currentEntry);
-               flush(mainDisplay);
-               if (!(Double.toString(answer).matches("\\-?\\d+\\.0$"))) {
-                    attachToMain(Double.toString(answer));
+               if(Double.parseDouble(mainDisplay.toString()) >= 0) { 
+                   double num = 0;
+                   removeLastIndex(secondaryDisplay);
+                   attachToSecondary(" sqrt(" + mainDisplay.toString() + ")");
+                   num = Double.parseDouble(mainDisplay.toString());
+                   answer = logic.sqrt(num);
+                   flush(mainDisplay);
+                   if (!(Double.toString(answer).matches("\\-?\\d+\\.0$"))) {
+                        attachToMain(Double.toString(answer));
+                   }
+                   else {
+                     int number = trimDouble(answer);
+                     attachToMain(Integer.toString(number));
+                   }  
+                   equationCalculated = true;
+                   secondaryDisplaySnapShot = secondaryDisplay.toString();
+                   setScreen();
                }
                else {
-                   int number = trimDouble(answer);
-                   attachToMain(Integer.toString(number));
-               }  
-               equationCalculated = true;
-               secondaryDisplaySnapShot = secondaryDisplay.toString();
-               setScreen();
+                   if (!memorySaved) {
+                       pane.setText("<small>" + " sqrt(" + mainDisplay.toString() + ")" + "</small><br><h1>" + "invalid input" + "</h1>");
+                   }
+                   else {
+                      pane.setText("<small>" + " sqrt(" + mainDisplay.toString() + "</small><br><h1>" + "invalic input" + "</h1><br><h1>" + whiteSpace + "M" + "</h1>"); 
+                   }
+                   equationCalculated = true;
+               }
            }
        });
        
@@ -525,16 +534,25 @@ class CalcPanel extends JPanel {
        buttonAdd.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               attachToSecondary("&emsp;" + "+" + "&emsp;");
+               checkForPreviousOperator();
+               attachToSecondary("&emsp;" + "+" + "&emsp;");               
                setUpOperator(Operations.ADDITION);
            }         
        }); 
+    }
+    
+    private void checkForPreviousOperator() {
+        if (!(currentOperator == null)) {
+            mathCalculation();
+            setSecondEntry = false;
+        }
     }
     
     private void setUpOperator(Operations operator) {
         currentOperator = operator;
         currentEntry = Double.parseDouble(mainDisplay.toString());
         secondaryDisplaySnapShot = secondaryDisplay.toString();
+        equationCalculated = false;
         setScreen();
     }
     
@@ -550,6 +568,12 @@ class CalcPanel extends JPanel {
      */
     private void attachToSecondary(String string) {
         secondaryDisplay.append(string);
+    }
+
+    private void resetSecondaryDisplay() {
+       flush(secondaryDisplay);
+        attachToSecondary(mainDisplay.toString());
+        
     }
 
    
@@ -624,18 +648,31 @@ class CalcPanel extends JPanel {
         }
     }
     
-   public void calculate() throws NumberFormatException {
+    public void calculate() throws NumberFormatException {
+        mathCalculation();
+        setMainText();
+        equationCalculated = true;
+        setSecondEntry = false;
+        currentOperator = null;
+        resetSecondaryDisplay();
+    }
+
+    public void mathCalculation() throws NumberFormatException {
         secondEntry = Double.parseDouble(mainDisplay.toString());
         answer = logic.calculate(currentEntry, secondEntry, currentOperator);
         flush(mainDisplay);
         if (!(Double.toString(answer).matches("\\-?\\d+\\.0$"))) {
-               attachToMain(Double.toString(answer));
+            attachToMain(Double.toString(answer));
         }
         else {
-               int number = trimDouble(answer);
-               attachToMain(Integer.toString(number));
+            int number = trimDouble(answer);
+            attachToMain(Integer.toString(number));
         }
-        setMainText();
-        equationCalculated = true;
     }
+    public void removeLastIndex(StringBuilder builder) {
+       String str = builder.toString();
+       flush(builder);
+       str = str.substring(0, str.length() - 1);
+       builder.append(str);
+   }
 }
