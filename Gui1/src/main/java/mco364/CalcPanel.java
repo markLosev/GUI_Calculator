@@ -45,6 +45,7 @@ class CalcPanel extends JPanel {
     private boolean equationCalculated;
     private boolean decPressed;
     private boolean onlyMainDisplayed;
+    private boolean negated;
     
     
     //// must be set to false after calculator is cleared
@@ -115,12 +116,7 @@ class CalcPanel extends JPanel {
            public void actionPerformed(ActionEvent e) {
                removeLastIndex(mainDisplay);
                removeLastIndex(secondaryDisplay);
-               if (onlyMainDisplayed) {
-                   setMainText();
-               }
-               else {
-                   setScreen();
-               }
+               checkScreenSettings();
            }
        });
        
@@ -138,7 +134,24 @@ class CalcPanel extends JPanel {
        c.gridx = 3;
        c.gridy = 1;
        add(buttonPosNeg, c);
-       
+       buttonPosNeg.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               String str = mainDisplay.toString();
+               flush(mainDisplay);
+               if (negated) {
+                   str = str.substring(1);
+                   negated = false;
+               }
+               else {
+                   str = "-" + str;
+                   negated = true;
+               }
+               attachToMain(str);
+               checkScreenSettings();
+           }
+       });
+        
        JButton buttonSqrt = new JButton ("\u221A");
        c.gridx = 4;
        c.gridy = 1;  
@@ -731,5 +744,14 @@ class CalcPanel extends JPanel {
    public void prepPreFix(String str) {
        removeLastIndex(secondaryDisplay);
        attachToSecondary( str + "(" + mainDisplay.toString() + ")");
+   }
+   
+   public void checkScreenSettings() {
+       if (onlyMainDisplayed) {
+           setMainText();
+       }
+       else {
+           setScreen();
+       }
    }
 }
