@@ -9,7 +9,10 @@ class MathLogic {
          double answer = 0;
          switch (operator) {
              case ADDITION:
+                 System.out.println("first number is: " + firstNumber);
+                 System.out.println("second number is: " + secondNumber);
                  answer = firstNumber + secondNumber;
+                 System.out.println(answer);
                  break;
              
              case SUBTRACTION:
@@ -37,5 +40,9 @@ class MathLogic {
     
     public double sqrt(double num) {
         return Math.sqrt(num);
+    }
+
+    double reciprocal(double num) {
+        return 1 / num;
     }
 }
