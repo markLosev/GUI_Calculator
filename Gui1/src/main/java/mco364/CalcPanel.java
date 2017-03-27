@@ -44,6 +44,7 @@ class CalcPanel extends JPanel {
     private String secondaryDisplaySnapShot;
     private boolean equationCalculated;
     private boolean decPressed;
+    private boolean onlyMainDisplayed;
     
     
     //// must be set to false after calculator is cleared
@@ -109,6 +110,19 @@ class CalcPanel extends JPanel {
        c.gridx = 0;
        c.gridy = 1;
        add(buttonBackspace, c);
+       buttonBackspace.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               removeLastIndex(mainDisplay);
+               removeLastIndex(secondaryDisplay);
+               if (onlyMainDisplayed) {
+                   setMainText();
+               }
+               else {
+                   setScreen();
+               }
+           }
+       });
        
        JButton buttonClearEntry = new JButton ("CE");
        c.gridx = 1;
@@ -591,7 +605,7 @@ class CalcPanel extends JPanel {
 
     private void resetSecondaryDisplay() {
        flush(secondaryDisplay);
-        attachToSecondary(mainDisplay.toString());
+       attachToSecondary(mainDisplay.toString());
         
     }
 
@@ -633,6 +647,7 @@ class CalcPanel extends JPanel {
        else {
            pane.setText("<br><h1>" + mainDisplay + "</h1><br><h1>" + whiteSpace + "M" + "</h1>");
        }
+       onlyMainDisplayed = true;
     }
     // This sets the secondaryDisplay and the mainDisplay. The calculator will never 
     // show the secondary display without the mainDisplay so there is no individual method
@@ -644,7 +659,8 @@ class CalcPanel extends JPanel {
        }
        else {
             pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + mainDisplay + "</h1><br><h1>" + whiteSpace + "M" + "</h1>"); 
-      }
+       }
+       onlyMainDisplayed = false;
     }
    
     public void flush(StringBuilder builder) {
