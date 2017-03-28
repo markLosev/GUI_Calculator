@@ -646,8 +646,8 @@ class CalcPanel extends JPanel {
            public void actionPerformed(ActionEvent e) {
                if (!(decPressed)) {
                    attachToMain(".");
-                   attachToSecondary(".");
-                   setMainText(); 
+                   attachToSecondary("."); 
+                   checkScreenSettings();
                    decPressed = true;
                }
            }
