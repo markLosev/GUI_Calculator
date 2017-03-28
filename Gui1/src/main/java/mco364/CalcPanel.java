@@ -124,12 +124,25 @@ class CalcPanel extends JPanel {
        c.gridx = 1;
        c.gridy = 1;
        add(buttonClearEntry, c);
+       buttonClearEntry.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               removeMainFromSecondary();
+               flush(mainDisplay);
+               checkScreenSettings("0");
+           } 
+       }); 
        
        JButton buttonClearAll = new JButton ("C");
        c.gridx = 2;
        c.gridy = 1;
        add(buttonClearAll, c);
-       
+       buttonClearAll.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+           }
+       }); 
        JButton buttonPosNeg = new JButton ("\u00B1");
        c.gridx = 3;
        c.gridy = 1;
@@ -662,6 +675,7 @@ class CalcPanel extends JPanel {
        }
        onlyMainDisplayed = true;
     }
+    
     // This sets the secondaryDisplay and the mainDisplay. The calculator will never 
     // show the secondary display without the mainDisplay so there is no individual method
     // for setting the text of the secondaryDisplay alon.
@@ -753,5 +767,46 @@ class CalcPanel extends JPanel {
        else {
            setScreen();
        }
+   }
+   
+   public void checkScreenSettings(String display) {
+       if (onlyMainDisplayed) {
+           if (!memorySaved) {
+               pane.setText("</h1><br><h1>" + display + "</h1>");
+           }
+           else {
+               pane.setText("<br><h1>" + display + "</h1><br><h1>" + whiteSpace + "M" + "</h1>");
+           }
+           onlyMainDisplayed = true;
+       }
+       else {
+           if (!memorySaved) {
+              pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + display + "</h1>");
+           }
+           else {
+              pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + display + "</h1><br><h1>" + whiteSpace + "M" + "</h1>"); 
+           }
+           onlyMainDisplayed = false;
+       }
+   }
+   
+   public void removeMainFromSecondary() {
+       if (!(secondaryDisplay.toString().contains(mainDisplay.toString()))) {
+           attachToSecondary(mainDisplay.toString()); // this if statement takes care of a 
+                                                      // corner case where CE is used after
+                                                      // chaining which doesn't put the mainDisplay
+                                                      // into the secondaryDisplay.
+       } 
+       String str = secondaryDisplay.toString();
+       System.out.println(str);
+       System.out.println(mainDisplay);
+       int index = str.indexOf(mainDisplay.toString());
+       System.out.println(index);
+       str = str.substring(0, index);
+       System.out.println("str is now: " + str);
+       if (!(str.equals(""))) {
+           flush(secondaryDisplay);
+       }
+       attachToSecondary(str);
    }
 }
