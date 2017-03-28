@@ -22,7 +22,7 @@ class CalcPanel extends JPanel {
     
     // The whitspace is used to shift the M to the lower left corner 
     // in the case where MS used.
-    private final String whiteSpace = "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;";
+    private final String whiteSpace = "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;";
     
     // this will be used to display the number that we are currently typing into
     // the calculator. It will also be used to display the answer to a calculation.
@@ -35,7 +35,7 @@ class CalcPanel extends JPanel {
     
     // checks if MS was pressed (this hasn't been implemented yet)
     private boolean memorySaved;
-    
+    private double memory;
     private double currentEntry;
     private double secondEntry;
     private double answer;
@@ -96,6 +96,14 @@ class CalcPanel extends JPanel {
        c.gridy = 0;
        add(buttonMS, c);
        c.gridx = 0;
+       buttonMS.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               memorySaved = true;
+               memory = Double.parseDouble(mainDisplay.toString());
+               checkScreenSettings();
+           }
+       }); 
        
        JButton buttonMPlus = new JButton ("M+");
        c.gridx = 3;
@@ -674,7 +682,7 @@ class CalcPanel extends JPanel {
            pane.setText("</h1><br><h1>" + mainDisplay + "</h1>");
        }
        else {
-           pane.setText("<br><h1>" + mainDisplay + "</h1><br><h1>" + whiteSpace + "M" + "</h1>");
+           pane.setText("<br><h1>" + mainDisplay + whiteSpace + "M" + "</h1>");//<br><h1>" + whiteSpace + "M" + "</h1>");
        }
        onlyMainDisplayed = true;
     }
@@ -688,7 +696,7 @@ class CalcPanel extends JPanel {
             pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + mainDisplay + "</h1>");
        }
        else {
-            pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + mainDisplay + "</h1><br><h1>" + whiteSpace + "M" + "</h1>"); 
+            pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + mainDisplay + whiteSpace + "M" + "</h1>");//<br><h1>" + whiteSpace + "M" + "</h1>"); 
        }
        onlyMainDisplayed = false;
     }
@@ -778,7 +786,7 @@ class CalcPanel extends JPanel {
                pane.setText("</h1><br><h1>" + display + "</h1>");
            }
            else {
-               pane.setText("<br><h1>" + display + "</h1><br><h1>" + whiteSpace + "M" + "</h1>");
+               pane.setText("<br><h1>" + display + whiteSpace + "M" + "</h1>");//<br><h1>" + whiteSpace + "M" + "</h1>");
            }
            onlyMainDisplayed = true;
        }
@@ -787,7 +795,7 @@ class CalcPanel extends JPanel {
               pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + display + "</h1>");
            }
            else {
-              pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + display + "</h1><br><h1>" + whiteSpace + "M" + "</h1>"); 
+              pane.setText("<small>" + secondaryDisplaySnapShot + "</small><br><h1>" + display + whiteSpace + "M" + "</h1>");//<br><h1>" + whiteSpace + "M" + "</h1>"); 
            }
            onlyMainDisplayed = false;
        }
