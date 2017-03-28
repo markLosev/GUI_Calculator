@@ -140,7 +140,10 @@ class CalcPanel extends JPanel {
        buttonClearAll.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+              flush(mainDisplay, secondaryDisplay);
+              secondaryDisplaySnapShot = "";
+              equationCalculated = true;
+              checkScreenSettings("0");
            }
        }); 
        JButton buttonPosNeg = new JButton ("\u00B1");
@@ -798,12 +801,8 @@ class CalcPanel extends JPanel {
                                                       // into the secondaryDisplay.
        } 
        String str = secondaryDisplay.toString();
-       System.out.println(str);
-       System.out.println(mainDisplay);
        int index = str.indexOf(mainDisplay.toString());
-       System.out.println(index);
        str = str.substring(0, index);
-       System.out.println("str is now: " + str);
        if (!(str.equals(""))) {
            flush(secondaryDisplay);
        }
