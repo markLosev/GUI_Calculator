@@ -132,11 +132,23 @@ class CalcPanel extends JPanel {
        c.gridx = 3;
        c.gridy = 0;
        add(buttonMPlus, c);
+       buttonMPlus.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               memory = logic.calculate(Double.parseDouble(mainDisplay.toString()), memory,Operations.ADDITION);
+           }
+       }); 
        
        JButton buttonMMinus = new JButton ("M-");
        c.gridx = 4;
        c.gridy = 0;
        add(buttonMMinus, c);
+       buttonMMinus.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               memory = logic.calculate(memory,Double.parseDouble(mainDisplay.toString()),Operations.SUBTRACTION);
+           }
+       }); 
        
        JButton buttonBackspace = new JButton ("\u2190");
        c.gridx = 0;
