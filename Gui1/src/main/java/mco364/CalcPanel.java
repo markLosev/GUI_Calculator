@@ -718,9 +718,7 @@ class CalcPanel extends JPanel {
         return Integer.parseInt(str);          
     }
     
-    
-    //***LIFF - SHOULD WE USE A BOOLEAN FOR THE SAVE OR A STRING AND SEE IF EMPTY?
-    
+
     // This method is used to display our mainDisplay field in the lower right
     // corner of the calculator. As of now this will be done every time a number
     // is pressed by the user. If a number has been saved then it will display
