@@ -51,6 +51,7 @@ class CalcPanel extends JPanel {
     //// must be set to false after calculator is cleared
     
     private boolean setSecondEntry;
+    private boolean memoryRecalled;
 
     public CalcPanel() {
        
@@ -90,7 +91,15 @@ class CalcPanel extends JPanel {
        c.gridx = 1;
        c.gridy = 0;
        add(buttonMR, c);
-       
+       buttonMR.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               memoryRecalled = true;
+               removeMainFromSecondary();
+               int memoryTrimmed = trimDouble(memory);
+               checkScreenSettings(Integer.toString(memoryTrimmed));
+           }
+       }); 
        JButton buttonMS = new JButton ("MS");
        c.gridx = 2;
        c.gridy = 0;
@@ -208,6 +217,7 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
               checkNewCalculation();
+              checkMemoryRecalled();
               if (currentOperator == null || setSecondEntry) {
                    attachToMain("7");
                    attachToSecondary("7");
@@ -236,6 +246,7 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
                checkNewCalculation();
+              checkMemoryRecalled();
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("8");
                    attachToSecondary("8");
@@ -264,6 +275,7 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
               checkNewCalculation();
+              checkMemoryRecalled();
               if (currentOperator == null || setSecondEntry) {
                    attachToMain("9");
                    attachToSecondary("9");
@@ -309,6 +321,7 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
               checkNewCalculation();
+              checkMemoryRecalled();
               if (currentOperator == null || setSecondEntry) {
                    attachToMain("4");
                    attachToSecondary("4");
@@ -337,6 +350,7 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
              checkNewCalculation();
+             checkMemoryRecalled();
              if (currentOperator == null || setSecondEntry) {
                    attachToMain("5");
                    attachToSecondary("5");
@@ -365,6 +379,7 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
                checkNewCalculation();
+               checkMemoryRecalled();
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("6");
                    attachToSecondary("6");
@@ -431,6 +446,7 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
                checkNewCalculation();
+               checkMemoryRecalled();
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("1");
                    attachToSecondary("1");
@@ -459,6 +475,7 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
                checkNewCalculation();
+               checkMemoryRecalled();
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("2");
                    attachToSecondary("2");
@@ -487,6 +504,7 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
                checkNewCalculation();
+               checkMemoryRecalled();
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("3");
                    attachToSecondary("3");
@@ -560,6 +578,7 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
                 checkNewCalculation();
+                checkMemoryRecalled();
                 if (currentOperator == null || setSecondEntry) {
                    attachToMain("0");
                    attachToSecondary("0");
@@ -732,6 +751,11 @@ class CalcPanel extends JPanel {
     }
 
     public void mathCalculation() throws NumberFormatException {
+        if (memoryRecalled) {
+            flush(mainDisplay);
+            attachToMain(Integer.toString(trimDouble(memory)));
+            attachToSecondary(Integer.toString(trimDouble(memory)));
+        }
         secondEntry = Double.parseDouble(mainDisplay.toString());
         answer = logic.calculate(currentEntry, secondEntry, currentOperator);
         flush(mainDisplay);
@@ -815,5 +839,12 @@ class CalcPanel extends JPanel {
            flush(secondaryDisplay);
        }
        attachToSecondary(str);
+   }
+   
+   public void checkMemoryRecalled() {
+       if (memoryRecalled) {
+           flush(mainDisplay);
+           memoryRecalled = false;
+       }
    }
 }
