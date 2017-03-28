@@ -86,6 +86,20 @@ class CalcPanel extends JPanel {
        c.gridx = 0;
        c.gridy = 0;
        add(buttonMC, c);
+       buttonMC.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               if (memoryRecalled) {
+                   flush(mainDisplay);
+                   attachToMain(Integer.toString(trimDouble(memory)));
+                   attachToSecondary(Integer.toString(trimDouble(memory)));
+                   memoryRecalled = false;
+               }
+               memory = 0;
+               memorySaved = false;
+               checkScreenSettings();
+           }
+       }); 
        
        JButton buttonMR = new JButton ("MR");
        c.gridx = 1;
@@ -303,6 +317,7 @@ class CalcPanel extends JPanel {
        buttonDivide.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+               checkForPreviousOperator();
               attachToSecondary("&emsp;" + "/" + "&emsp;");
               setUpOperator(Operations.DIVISION);
            }
@@ -407,6 +422,7 @@ class CalcPanel extends JPanel {
        buttonMult.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+               checkForPreviousOperator();
                attachToSecondary("&emsp;" + "*" + "&emsp;");
                setUpOperator(Operations.MULTIPLICATION);
            }
@@ -532,6 +548,7 @@ class CalcPanel extends JPanel {
        buttonSubtract.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+               checkForPreviousOperator();
                attachToSecondary("&emsp;" + "-" + "&emsp;");
                setUpOperator(Operations.SUBTRACTION);
            }
