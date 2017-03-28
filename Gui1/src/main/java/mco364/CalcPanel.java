@@ -33,7 +33,7 @@ class CalcPanel extends JPanel {
     // used to display all numbers and operators that are being used for a given equation.
     private StringBuilder secondaryDisplay;
     
-    // checks if MS was pressed (this hasn't been implemented yet)
+    // checks if MS was pressed 
     private boolean memorySaved;
     private double memory;
     private double currentEntry;
@@ -196,7 +196,13 @@ class CalcPanel extends JPanel {
        buttonPosNeg.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+               if (memoryRecalled) {
+                   flush(mainDisplay);
+                   attachToMain(Integer.toString(trimDouble(memory)));
+               }
+               memoryRecalled = false;
                String str = mainDisplay.toString();
+               System.out.println(str);
                flush(mainDisplay);
                if (negated) {
                    str = str.substring(1);
@@ -207,6 +213,7 @@ class CalcPanel extends JPanel {
                    negated = true;
                }
                attachToMain(str);
+               System.out.println("mainDisplay is: " + mainDisplay);
                checkScreenSettings();
            }
        });
@@ -218,6 +225,7 @@ class CalcPanel extends JPanel {
        buttonSqrt.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+               checkMemoryAppend();
                if(Double.parseDouble(mainDisplay.toString()) >= 0) { 
                    double num = 0;
                    prepPreFix("sqrt");
@@ -329,7 +337,7 @@ class CalcPanel extends JPanel {
        buttonDivide.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               checkForPreviousOperator();
+              checkForPreviousOperator();
               attachToSecondary("&emsp;" + "/" + "&emsp;");
               setUpOperator(Operations.DIVISION);
            }
@@ -448,6 +456,7 @@ class CalcPanel extends JPanel {
        buttonReciprocal.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
+                checkMemoryAppend();
                 if(Double.parseDouble(mainDisplay.toString()) > 0 || Double.parseDouble(mainDisplay.toString()) < 0) { 
                    double num = 0;
                    prepPreFix("reciproc");
@@ -459,7 +468,7 @@ class CalcPanel extends JPanel {
                    secondaryDisplaySnapShot = secondaryDisplay.toString();
                    setScreen();
                }
-               else {
+                else {
                    displayError("reciproc", "cannot divide by zero");
                }
            }
@@ -778,11 +787,7 @@ class CalcPanel extends JPanel {
     }
 
     public void mathCalculation() throws NumberFormatException {
-        if (memoryRecalled) {
-            flush(mainDisplay);
-            attachToMain(Integer.toString(trimDouble(memory)));
-            attachToSecondary(Integer.toString(trimDouble(memory)));
-        }
+        checkMemoryAppend();
         secondEntry = Double.parseDouble(mainDisplay.toString());
         answer = logic.calculate(currentEntry, secondEntry, currentOperator);
         flush(mainDisplay);
@@ -873,5 +878,13 @@ class CalcPanel extends JPanel {
            flush(mainDisplay);
            memoryRecalled = false;
        }
+   }
+   
+   public void checkMemoryAppend() {
+       if (memoryRecalled) {
+           flush(mainDisplay);
+           attachToMain(Integer.toString(trimDouble(memory)));
+           attachToSecondary(Integer.toString(trimDouble(memory)));
+        }
    }
 }
