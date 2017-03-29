@@ -23,9 +23,6 @@ class MathLogic {
              case DIVISION:
                  answer = firstNumber / secondNumber;
                  break;
-                 
-             case PERCENT:
-                 answer = percent(firstNumber, secondNumber);
          }
          return answer;
     }
@@ -39,7 +36,11 @@ class MathLogic {
         return Math.sqrt(num);
     }
 
-    double reciprocal(double num) {
+    public double reciprocal(double num) {
         return 1 / num;
+    }
+    
+    public double percent(double num) {
+        return num / 100;
     }
 }
