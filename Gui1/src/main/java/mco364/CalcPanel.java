@@ -199,9 +199,10 @@ class CalcPanel extends JPanel {
                if (memoryRecalled) {
                    flush(mainDisplay);
                    attachToMain(Integer.toString(trimDouble(memory)));
+                   memoryRecalled = false;
                }
-               memoryRecalled = false;
                String str = mainDisplay.toString();
+               removeMainFromSecondary();
                System.out.println(str);
                flush(mainDisplay);
                if (negated) {
@@ -213,7 +214,7 @@ class CalcPanel extends JPanel {
                    negated = true;
                }
                attachToMain(str);
-               System.out.println("mainDisplay is: " + mainDisplay);
+               attachToSecondary(str);
                checkScreenSettings();
            }
        });
@@ -680,6 +681,7 @@ class CalcPanel extends JPanel {
         secondaryDisplaySnapShot = secondaryDisplay.toString();
         equationCalculated = false;
         decPressed = false;
+        negated = false;
         setScreen();
     }
     
@@ -793,6 +795,7 @@ class CalcPanel extends JPanel {
         flush(mainDisplay);
         checkTrailingZeroes();
         decPressed = false;
+        negated = false;
     }
     
     public void checkTrailingZeroes() {
@@ -865,12 +868,13 @@ class CalcPanel extends JPanel {
                                                       // into the secondaryDisplay.
        } 
        String str = secondaryDisplay.toString();
+       System.out.println("this is the secondary display befor any removal: " + secondaryDisplay);
        int index = str.indexOf(mainDisplay.toString());
        str = str.substring(0, index);
-       if (!(str.equals(""))) {
-           flush(secondaryDisplay);
-       }
+       System.out.println("this is str: " + str);
+       flush(secondaryDisplay);
        attachToSecondary(str);
+       System.out.println("this is the secondary display after removal: " + secondaryDisplay);
    }
    
    public void checkMemoryRecalled() {
