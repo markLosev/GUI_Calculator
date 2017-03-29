@@ -253,28 +253,8 @@ class CalcPanel extends JPanel {
        button7.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-              checkNewCalculation();
-              checkMemoryRecalled();
-              if (currentOperator == null || setSecondEntry) {
-                   attachToMain("7");
-                   attachToSecondary("7");
-                   firstNumberPressed = true;
-                   if (currentOperator == null) {
-                       setMainText(); 
-                   }
-                   else {
-                       setScreen();
-                   }
-              }
-              else {
-                   flush(mainDisplay);
-                   attachToMain("7");
-                   attachToSecondary("7");
-                   setScreen();
-                   setSecondEntry = true;
-                   secondaryEntrySet = true;
-                   switchOperator = false;
-              }             
+              JButton b = (JButton) e.getSource();
+               setUpDigitButton(b.getText());
            }
        });
        
@@ -285,28 +265,8 @@ class CalcPanel extends JPanel {
        button8.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-              checkNewCalculation();
-              checkMemoryRecalled();
-               if (currentOperator == null || setSecondEntry) {
-                   attachToMain("8");
-                   attachToSecondary("8");
-                   firstNumberPressed = true;
-                   if (currentOperator == null) {
-                       setMainText(); 
-                   }
-                   else {
-                       setScreen();
-                   } 
-               }
-               else {
-                   flush(mainDisplay);
-                   attachToMain("8");
-                   attachToSecondary("8");
-                   setScreen();
-                   setSecondEntry = true;
-                   secondaryEntrySet = true;
-                   switchOperator = false;
-               }              
+               JButton b = (JButton) e.getSource();
+               setUpDigitButton(b.getText());              
            }
        });
        
@@ -317,28 +277,8 @@ class CalcPanel extends JPanel {
        button9.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-              checkNewCalculation();
-              checkMemoryRecalled();
-              if (currentOperator == null || setSecondEntry) {
-                   attachToMain("9");
-                   attachToSecondary("9");
-                   firstNumberPressed = true;
-                   if (currentOperator == null) {
-                       setMainText(); 
-                   }
-                   else {
-                       setScreen();
-                   }
-               }
-               else {
-                   flush(mainDisplay);
-                   attachToMain("9");
-                   attachToSecondary("9");
-                   setScreen();
-                   setSecondEntry = true;
-                   secondaryEntrySet = true;
-                   switchOperator = false;
-               }              
+               JButton b = (JButton) e.getSource();
+               setUpDigitButton(b.getText());              
            }
        });
        
@@ -396,28 +336,8 @@ class CalcPanel extends JPanel {
        button4.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-              checkNewCalculation();
-              checkMemoryRecalled();
-              if (currentOperator == null || setSecondEntry) {
-                   attachToMain("4");
-                   attachToSecondary("4");
-                   firstNumberPressed = true;
-                 if (currentOperator == null) {
-                       setMainText(); 
-                 }
-                 else {
-                       setScreen();
-                 }                  
-              }
-              else {
-                   flush(mainDisplay);
-                   attachToMain("4");
-                   attachToSecondary("4");
-                   setScreen();
-                   setSecondEntry = true;
-                   secondaryEntrySet = true;
-                   switchOperator = false;
-               }              
+               JButton b = (JButton) e.getSource();
+               setUpDigitButton(b.getText());          
            }
        });
        
@@ -428,28 +348,8 @@ class CalcPanel extends JPanel {
        button5.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-             checkNewCalculation();
-             checkMemoryRecalled();
-             if (currentOperator == null || setSecondEntry) {
-                   attachToMain("5");
-                   attachToSecondary("5");
-                   firstNumberPressed = true;
-                 if (currentOperator == null) {
-                     setMainText(); 
-                 }
-                 else {
-                       setScreen();
-                 }
-             }
-             else {
-                 flush(mainDisplay);
-                 attachToMain("5");
-                 attachToSecondary("5");
-                 setScreen();
-                 setSecondEntry = true;
-                 secondaryEntrySet = true;
-                 switchOperator = false;
-             }                
+               JButton b = (JButton) e.getSource();
+               setUpDigitButton(b.getText());              
            }
        });
        
@@ -460,28 +360,8 @@ class CalcPanel extends JPanel {
        button6.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               checkNewCalculation();
-               checkMemoryRecalled();
-               if (currentOperator == null || setSecondEntry) {
-                   attachToMain("6");
-                   attachToSecondary("6");
-                   firstNumberPressed = true;
-                   if (currentOperator == null) {
-                       setMainText(); 
-                   }
-                   else {
-                       setScreen();
-                   } 
-               }
-               else {
-                   flush(mainDisplay);
-                   attachToMain("6");
-                   attachToSecondary("6");
-                   setScreen();
-                   setSecondEntry = true;
-                   secondaryEntrySet = true;
-                   switchOperator = false;
-               }               
+               JButton b = (JButton) e.getSource();
+               setUpDigitButton(b.getText());            
            }
        });
        
@@ -546,28 +426,8 @@ class CalcPanel extends JPanel {
        button1.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               checkNewCalculation();
-               checkMemoryRecalled();
-               if (currentOperator == null || setSecondEntry) {
-                    attachToMain("1");
-                    attachToSecondary("1");
-                    firstNumberPressed = true;
-                    if (currentOperator == null) {
-                       setMainText(); 
-                    }
-                    else {
-                       setScreen();
-                    }
-               }
-               else {
-                   flush(mainDisplay);
-                   attachToMain("1");
-                   attachToSecondary("1");
-                   setScreen();
-                   setSecondEntry = true;
-                   secondaryEntrySet = true;
-                   switchOperator = false;
-               }               
+               JButton b = (JButton) e.getSource();
+               setUpDigitButton(b.getText());
            }
        });
        
@@ -578,28 +438,8 @@ class CalcPanel extends JPanel {
        button2.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               checkNewCalculation();
-               checkMemoryRecalled();
-               if (currentOperator == null || setSecondEntry) {
-                   attachToMain("2");
-                   attachToSecondary("2");
-                   firstNumberPressed = true;
-                  if (currentOperator == null) {
-                       setMainText(); 
-                  }
-                  else {
-                      setScreen();
-                  } 
-               }
-               else {
-                   flush(mainDisplay);
-                   attachToMain("2");
-                   attachToSecondary("2");
-                   setScreen();
-                   setSecondEntry = true;
-                   secondaryEntrySet = true;
-                   switchOperator = false;
-               }               
+               JButton b = (JButton) e.getSource();
+               setUpDigitButton(b.getText());             
            }
        });
        
@@ -610,28 +450,8 @@ class CalcPanel extends JPanel {
        button3.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               checkNewCalculation();
-               checkMemoryRecalled();
-               if (currentOperator == null || setSecondEntry) {
-                   attachToMain("3");
-                   attachToSecondary("3");
-                   firstNumberPressed = true;
-                   if (currentOperator == null) {
-                       setMainText(); 
-                   }
-                   else {
-                       setScreen();
-                   } 
-               }
-               else {
-                   flush(mainDisplay);
-                   attachToMain("3");
-                   attachToSecondary("3");
-                   setScreen();
-                   setSecondEntry = true;
-                   secondaryEntrySet = true;
-                   switchOperator = false;
-               }               
+               JButton b = (JButton) e.getSource();
+               setUpDigitButton(b.getText());            
            }
        });
        
@@ -702,28 +522,8 @@ class CalcPanel extends JPanel {
        button0.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-                checkNewCalculation();
-                checkMemoryRecalled();
-                if (currentOperator == null || setSecondEntry) {
-                   attachToMain("0");
-                   attachToSecondary("0");
-                   firstNumberPressed = true;
-                   if (currentOperator == null) {
-                       setMainText(); 
-                   }
-                   else {
-                       setScreen();
-                   } 
-                }
-                else {                  
-                   flush(mainDisplay);
-                   attachToMain("0");
-                   attachToSecondary("0");
-                   setScreen();
-                   setSecondEntry = true;
-                   secondaryEntrySet = true;
-                   switchOperator = false;
-               }   
+               JButton b = (JButton) e.getSource();
+               setUpDigitButton(b.getText());
            }
        });
        
@@ -819,7 +619,7 @@ class CalcPanel extends JPanel {
     // The way I see it we will use them to keep track of what the current operator
     // is before making a calculation (this has not been implemented yet)
     public enum Operations {
-        ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION, SQUAREROOT, RECIPROCAL, PERCENT, EQUALS
+        ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
     }
     // this method is used in the Calc class in order to retrieve the Jtextpane
     // and place it in the north so it will look like a standard calculator.
@@ -1041,5 +841,30 @@ class CalcPanel extends JPanel {
        minusClicked = false;
        multiplyClicked = false;
        divideClicked = false;    
+   }
+   
+   public void setUpDigitButton(String number) {
+       checkNewCalculation();
+              checkMemoryRecalled();
+              if (currentOperator == null || setSecondEntry) {
+                   attachToMain(number);
+                   attachToSecondary(number);
+                   firstNumberPressed = true;
+                   if (currentOperator == null) {
+                       setMainText(); 
+                   }
+                   else {
+                       setScreen();
+                   }
+              }
+              else {
+                   flush(mainDisplay);
+                   attachToMain(number);
+                   attachToSecondary(number);
+                   setScreen();
+                   setSecondEntry = true;
+                   secondaryEntrySet = true;
+                   switchOperator = false;
+              }             
    }
 }
