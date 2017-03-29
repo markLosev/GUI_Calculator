@@ -14,7 +14,7 @@ class Calc extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setSize(400, 500);
-        setResizable(false);        
+       // setResizable(false);        
         
         CalcPanel mainPanel2 = new CalcPanel(); // lightweight -- implement in pure Java
         
