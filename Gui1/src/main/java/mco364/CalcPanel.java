@@ -842,26 +842,26 @@ class CalcPanel extends JPanel {
    
    public void setUpDigitButton(String number) {
        checkNewCalculation();
-              checkMemoryRecalled();
-              if (currentOperator == null || setSecondEntry) {
-                   attachToMain(number);
-                   attachToSecondary(number);
-                   firstNumberPressed = true;
-                   if (currentOperator == null) {
-                       setMainText(); 
-                   }
-                   else {
-                       setScreen();
-                   }
-              }
-              else {
-                   flush(mainDisplay);
-                   attachToMain(number);
-                   attachToSecondary(number);
-                   setScreen();
-                   setSecondEntry = true;
-                   secondaryEntrySet = true;
-                   switchOperator = false;
-              }             
+       checkMemoryRecalled();
+       if (currentOperator == null || setSecondEntry) {
+           attachToMain(number);
+           attachToSecondary(number);
+           firstNumberPressed = true;
+           if (currentOperator == null) {
+               setMainText(); 
+           }
+           else {
+               setScreen();
+           }
+        }
+        else {
+            flush(mainDisplay);
+            attachToMain(number);
+            attachToSecondary(number);
+            setScreen();
+            setSecondEntry = true;
+            secondaryEntrySet = true;
+            switchOperator = false;
+        }             
    }
 }
