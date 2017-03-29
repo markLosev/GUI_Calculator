@@ -10,7 +10,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
-import java.util.regex.Pattern;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
@@ -46,11 +45,18 @@ class CalcPanel extends JPanel {
     private boolean decPressed;
     private boolean onlyMainDisplayed;
     private boolean negated;
+    private boolean firstNumberPressed;
+    private boolean plusClicked;
+    private boolean minusClicked;
+    private boolean multiplyClicked;
+    private boolean divideClicked;
+    private boolean switchOperator;
     
     
     //// must be set to false after calculator is cleared
     
     private boolean setSecondEntry;
+    private boolean secondaryEntrySet;
     private boolean memoryRecalled;
 
     public CalcPanel() {
@@ -203,7 +209,6 @@ class CalcPanel extends JPanel {
                }
                String str = mainDisplay.toString();
                removeMainFromSecondary();
-               System.out.println(str);
                flush(mainDisplay);
                if (negated) {
                    str = str.substring(1);
@@ -256,6 +261,7 @@ class CalcPanel extends JPanel {
               if (currentOperator == null || setSecondEntry) {
                    attachToMain("7");
                    attachToSecondary("7");
+                   firstNumberPressed = true;
                    if (currentOperator == null) {
                        setMainText(); 
                    }
@@ -269,6 +275,8 @@ class CalcPanel extends JPanel {
                    attachToSecondary("7");
                    setScreen();
                    setSecondEntry = true;
+                   secondaryEntrySet = true;
+                   switchOperator = false;
               }             
            }
        });
@@ -280,11 +288,12 @@ class CalcPanel extends JPanel {
        button8.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               checkNewCalculation();
+              checkNewCalculation();
               checkMemoryRecalled();
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("8");
                    attachToSecondary("8");
+                   firstNumberPressed = true;
                    if (currentOperator == null) {
                        setMainText(); 
                    }
@@ -298,6 +307,8 @@ class CalcPanel extends JPanel {
                    attachToSecondary("8");
                    setScreen();
                    setSecondEntry = true;
+                   secondaryEntrySet = true;
+                   switchOperator = false;
                }              
            }
        });
@@ -314,6 +325,7 @@ class CalcPanel extends JPanel {
               if (currentOperator == null || setSecondEntry) {
                    attachToMain("9");
                    attachToSecondary("9");
+                   firstNumberPressed = true;
                    if (currentOperator == null) {
                        setMainText(); 
                    }
@@ -327,6 +339,8 @@ class CalcPanel extends JPanel {
                    attachToSecondary("9");
                    setScreen();
                    setSecondEntry = true;
+                   secondaryEntrySet = true;
+                   switchOperator = false;
                }              
            }
        });
@@ -339,8 +353,22 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
               checkForPreviousOperator();
-              attachToSecondary("&emsp;" + "/" + "&emsp;");
-              setUpOperator(Operations.DIVISION);
+              if (!divideClicked && firstNumberPressed) {
+                    attachToSecondary("&emsp;" + "/" + "&emsp;");               
+                    setUpOperator(Operations.ADDITION);
+                    divideClicked = true;
+                    firstNumberPressed = false;
+                    switchOperator = true;
+              }
+              if (switchOperator) {
+                  removeLastOperator(secondaryDisplay);
+                  setOperator("&emsp;" + "/" + "&emsp;",Operations.DIVISION);
+              }
+              if (secondaryEntrySet) {
+                  setOperator("&emsp;" + "/" + "&emsp;",Operations.DIVISION);
+                  secondaryEntrySet = false;
+                  switchOperator = true;
+              }
            }
        });
        
@@ -361,6 +389,7 @@ class CalcPanel extends JPanel {
               if (currentOperator == null || setSecondEntry) {
                    attachToMain("4");
                    attachToSecondary("4");
+                   firstNumberPressed = true;
                  if (currentOperator == null) {
                        setMainText(); 
                  }
@@ -374,6 +403,8 @@ class CalcPanel extends JPanel {
                    attachToSecondary("4");
                    setScreen();
                    setSecondEntry = true;
+                   secondaryEntrySet = true;
+                   switchOperator = false;
                }              
            }
        });
@@ -390,6 +421,7 @@ class CalcPanel extends JPanel {
              if (currentOperator == null || setSecondEntry) {
                    attachToMain("5");
                    attachToSecondary("5");
+                   firstNumberPressed = true;
                  if (currentOperator == null) {
                      setMainText(); 
                  }
@@ -403,6 +435,8 @@ class CalcPanel extends JPanel {
                  attachToSecondary("5");
                  setScreen();
                  setSecondEntry = true;
+                 secondaryEntrySet = true;
+                 switchOperator = false;
              }                
            }
        });
@@ -419,6 +453,7 @@ class CalcPanel extends JPanel {
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("6");
                    attachToSecondary("6");
+                   firstNumberPressed = true;
                    if (currentOperator == null) {
                        setMainText(); 
                    }
@@ -432,6 +467,8 @@ class CalcPanel extends JPanel {
                    attachToSecondary("6");
                    setScreen();
                    setSecondEntry = true;
+                   secondaryEntrySet = true;
+                   switchOperator = false;
                }               
            }
        });
@@ -444,8 +481,22 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
                checkForPreviousOperator();
-               attachToSecondary("&emsp;" + "*" + "&emsp;");
-               setUpOperator(Operations.MULTIPLICATION);
+               if (!multiplyClicked && firstNumberPressed) {
+                    attachToSecondary("&emsp;" + "*" + "&emsp;");               
+                    setUpOperator(Operations.ADDITION);
+                    multiplyClicked = true;
+                    firstNumberPressed = false;
+                    switchOperator = true;
+               }
+               if (switchOperator) {
+                   removeLastOperator(secondaryDisplay);
+                   setOperator("&emsp;" + "*" + "&emsp;",Operations.MULTIPLICATION);
+               }
+               if (secondaryEntrySet) {
+                   setOperator("&emsp;" + "*" + "&emsp;",Operations.MULTIPLICATION);
+                   secondaryEntrySet = false;
+                   switchOperator = true;
+               }
            }
        });
       
@@ -486,8 +537,9 @@ class CalcPanel extends JPanel {
                checkNewCalculation();
                checkMemoryRecalled();
                if (currentOperator == null || setSecondEntry) {
-                   attachToMain("1");
-                   attachToSecondary("1");
+                    attachToMain("1");
+                    attachToSecondary("1");
+                    firstNumberPressed = true;
                     if (currentOperator == null) {
                        setMainText(); 
                     }
@@ -501,6 +553,8 @@ class CalcPanel extends JPanel {
                    attachToSecondary("1");
                    setScreen();
                    setSecondEntry = true;
+                   secondaryEntrySet = true;
+                   switchOperator = false;
                }               
            }
        });
@@ -517,6 +571,7 @@ class CalcPanel extends JPanel {
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("2");
                    attachToSecondary("2");
+                   firstNumberPressed = true;
                   if (currentOperator == null) {
                        setMainText(); 
                   }
@@ -530,6 +585,8 @@ class CalcPanel extends JPanel {
                    attachToSecondary("2");
                    setScreen();
                    setSecondEntry = true;
+                   secondaryEntrySet = true;
+                   switchOperator = false;
                }               
            }
        });
@@ -546,6 +603,7 @@ class CalcPanel extends JPanel {
                if (currentOperator == null || setSecondEntry) {
                    attachToMain("3");
                    attachToSecondary("3");
+                   firstNumberPressed = true;
                    if (currentOperator == null) {
                        setMainText(); 
                    }
@@ -559,6 +617,8 @@ class CalcPanel extends JPanel {
                    attachToSecondary("3");
                    setScreen();
                    setSecondEntry = true;
+                   secondaryEntrySet = true;
+                   switchOperator = false;
                }               
            }
        });
@@ -571,8 +631,22 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
                checkForPreviousOperator();
-               attachToSecondary("&emsp;" + "-" + "&emsp;");
-               setUpOperator(Operations.SUBTRACTION);
+               if (!minusClicked && firstNumberPressed) {
+                    attachToSecondary("&emsp;" + "-" + "&emsp;");               
+                    setUpOperator(Operations.ADDITION);
+                    minusClicked = true;
+                    firstNumberPressed = false;
+                    switchOperator = true;
+               }
+               if (switchOperator) {
+                  removeLastOperator(secondaryDisplay);
+                  setOperator("&emsp;" + "-" + "&emsp;",Operations.SUBTRACTION);
+               }
+               if (secondaryEntrySet) {
+                   setOperator("&emsp;" + "-" + "&emsp;",Operations.SUBTRACTION);
+                   secondaryEntrySet = false;
+                   switchOperator = true;
+               }
            }
        });
        
@@ -621,6 +695,7 @@ class CalcPanel extends JPanel {
                 if (currentOperator == null || setSecondEntry) {
                    attachToMain("0");
                    attachToSecondary("0");
+                   firstNumberPressed = true;
                    if (currentOperator == null) {
                        setMainText(); 
                    }
@@ -634,6 +709,8 @@ class CalcPanel extends JPanel {
                    attachToSecondary("0");
                    setScreen();
                    setSecondEntry = true;
+                   secondaryEntrySet = true;
+                   switchOperator = false;
                }   
            }
        });
@@ -662,14 +739,34 @@ class CalcPanel extends JPanel {
            @Override
            public void actionPerformed(ActionEvent e) {
                checkForPreviousOperator();
-               attachToSecondary("&emsp;" + "+" + "&emsp;");               
-               setUpOperator(Operations.ADDITION);
+               // this allows the plus operator to be used for the first time.
+               if (!plusClicked && firstNumberPressed) {
+                    attachToSecondary("&emsp;" + "+" + "&emsp;");               
+                    setUpOperator(Operations.ADDITION);
+                    plusClicked = true;
+                    firstNumberPressed = false;
+                    switchOperator = true;
+               }
+               if (switchOperator) {
+                  removeLastOperator(secondaryDisplay);
+                  setOperator("&emsp;" + "+" + "&emsp;",Operations.ADDITION);
+               }
+               if (secondaryEntrySet) {
+                   setOperator("&emsp;" + "+" + "&emsp;",Operations.ADDITION);
+                   secondaryEntrySet = false;
+                   switchOperator = true;
+               }
            }         
        }); 
     }
     
+    private void setOperator (String mathProcess, Operations operator) {
+        attachToSecondary(mathProcess);
+        setUpOperator(operator);
+    }
+    
     private void checkForPreviousOperator() {
-        if (!(currentOperator == null)) {
+        if (!(currentOperator == null) && setSecondEntry) {
             mathCalculation();
             setSecondEntry = false;
         }
@@ -775,6 +872,13 @@ class CalcPanel extends JPanel {
             currentEntry = 0;
             secondEntry = 0;
             setSecondEntry = false;
+            secondaryEntrySet = false;
+            switchOperator = false;
+            firstNumberPressed = false;
+            plusClicked = false;
+            minusClicked = false;
+            multiplyClicked = false;
+            divideClicked = false;
             decPressed = false;
         }
     }
@@ -784,6 +888,7 @@ class CalcPanel extends JPanel {
         setMainText();
         equationCalculated = true;
         setSecondEntry = false;
+        secondaryEntrySet = false;
         currentOperator = null;
         resetSecondaryDisplay();
     }
@@ -812,6 +917,13 @@ class CalcPanel extends JPanel {
        String str = builder.toString();
        flush(builder);
        str = str.substring(0, str.length() - 1);
+       builder.append(str);
+   }
+    
+   public void removeLastOperator(StringBuilder builder) {
+       String str = builder.toString();
+       flush(builder);
+       str = str.substring(0, str.length() - 13);
        builder.append(str);
    }
     
