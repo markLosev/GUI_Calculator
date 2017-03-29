@@ -289,24 +289,7 @@ class CalcPanel extends JPanel {
        buttonDivide.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-              checkForPreviousOperator();
-              if (!divideClicked && firstNumberPressed) {
-                    attachToSecondary("&emsp;" + "/" + "&emsp;");               
-                    setUpOperator(Operations.ADDITION);
-                    divideClicked = true;
-                    firstNumberPressed = false;
-                    switchOperator = true;
-              }
-              if (switchOperator) {
-                  removeLastOperator(secondaryDisplay);
-                  setOperator("&emsp;" + "/" + "&emsp;",Operations.DIVISION);
-              }
-              if (secondaryEntrySet) {
-                  setOperator("&emsp;" + "/" + "&emsp;",Operations.DIVISION);
-                  secondaryEntrySet = false;
-                  switchOperator = true;
-              }
-           }
+               setUpOperatorButton(divideClicked, "&emsp;" + "/" + "&emsp;", Operations.DIVISION);           }
        });
        
        JButton buttonPercent = new JButton ("%");
@@ -372,23 +355,7 @@ class CalcPanel extends JPanel {
        buttonMult.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               checkForPreviousOperator();
-               if (!multiplyClicked && firstNumberPressed) {
-                    attachToSecondary("&emsp;" + "*" + "&emsp;");               
-                    setUpOperator(Operations.ADDITION);
-                    multiplyClicked = true;
-                    firstNumberPressed = false;
-                    switchOperator = true;
-               }
-               if (switchOperator) {
-                   removeLastOperator(secondaryDisplay);
-                   setOperator("&emsp;" + "*" + "&emsp;",Operations.MULTIPLICATION);
-               }
-               if (secondaryEntrySet) {
-                   setOperator("&emsp;" + "*" + "&emsp;",Operations.MULTIPLICATION);
-                   secondaryEntrySet = false;
-                   switchOperator = true;
-               }
+               setUpOperatorButton(multiplyClicked, "&emsp;" + "*" + "&emsp;", Operations.MULTIPLICATION);
            }
        });
       
@@ -462,23 +429,7 @@ class CalcPanel extends JPanel {
        buttonSubtract.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               checkForPreviousOperator();
-               if (!minusClicked && firstNumberPressed) {
-                    attachToSecondary("&emsp;" + "-" + "&emsp;");               
-                    setUpOperator(Operations.ADDITION);
-                    minusClicked = true;
-                    firstNumberPressed = false;
-                    switchOperator = true;
-               }
-               if (switchOperator) {
-                  removeLastOperator(secondaryDisplay);
-                  setOperator("&emsp;" + "-" + "&emsp;",Operations.SUBTRACTION);
-               }
-               if (secondaryEntrySet) {
-                   setOperator("&emsp;" + "-" + "&emsp;",Operations.SUBTRACTION);
-                   secondaryEntrySet = false;
-                   switchOperator = true;
-               }
+               setUpOperatorButton(minusClicked, "&emsp;" + "-" + "&emsp;", Operations.SUBTRACTION);
            }
        });
        
@@ -550,24 +501,7 @@ class CalcPanel extends JPanel {
        buttonAdd.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               checkForPreviousOperator();
-               // this allows the plus operator to be used for the first time.
-               if (!plusClicked && firstNumberPressed) {
-                    attachToSecondary("&emsp;" + "+" + "&emsp;");               
-                    setUpOperator(Operations.ADDITION);
-                    plusClicked = true;
-                    firstNumberPressed = false;
-                    switchOperator = true;
-               }
-               if (switchOperator) {
-                   removeLastOperator(secondaryDisplay);
-                   setOperator("&emsp;" + "+" + "&emsp;",Operations.ADDITION);
-               }
-               if (secondaryEntrySet) {
-                   setOperator("&emsp;" + "+" + "&emsp;",Operations.ADDITION);
-                   secondaryEntrySet = false;
-                   switchOperator = true;
-               }
+               setUpOperatorButton(plusClicked, "&emsp;" + "+" + "&emsp;", Operations.ADDITION);
            }         
        }); 
     }
@@ -863,5 +797,25 @@ class CalcPanel extends JPanel {
             secondaryEntrySet = true;
             switchOperator = false;
         }             
+   }
+   
+   public void setUpOperatorButton(Boolean clickedOperator, String operationString, Operations operator) {
+       checkForPreviousOperator();
+       if (!clickedOperator && firstNumberPressed) {
+           attachToSecondary(operationString);               
+           setUpOperator(operator);
+           clickedOperator = true;
+           firstNumberPressed = false;
+           switchOperator = true;
+       }
+       if (switchOperator) {
+           removeLastOperator(secondaryDisplay);
+           setOperator(operationString,operator);
+       }
+       if (secondaryEntrySet) {
+           setOperator(operationString,operator);
+           secondaryEntrySet = false;
+           switchOperator = true;
+       }
    }
 }
