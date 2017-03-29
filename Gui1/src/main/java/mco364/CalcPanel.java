@@ -74,13 +74,9 @@ class CalcPanel extends JPanel {
        
        mainDisplay = new StringBuilder();
        secondaryDisplay = new StringBuilder();
-//       
-//        attachToMain("0");
-//        attachToSecondary("0");
-//        setMainText();
-       
+
        setLayout (new GridBagLayout ());
-       GridBagConstraints c = new GridBagConstraints ();
+       GridBagConstraints c = new GridBagConstraints();
        c.weightx = 1.0;
        c.weighty = 1.0;
        c.fill = c.BOTH;
@@ -377,7 +373,22 @@ class CalcPanel extends JPanel {
        c.gridx = 4;
        c.gridy = 2;
        add(buttonPercent, c);
-       
+       //A + (A × B/100) 
+       buttonPercent.addActionListener(new ActionListener() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               checkMemoryAppend();
+               double num = 0;
+               answer = logic.percent(Double.parseDouble(mainDisplay.toString()));
+               answer = logic.calculate(answer, currentEntry, Operations.MULTIPLICATION);
+               flush(mainDisplay);
+               checkTrailingZeroes();
+              // equationCalculated = true;
+               attachToSecondary("%");
+               secondaryDisplaySnapShot = secondaryDisplay.toString();
+               setScreen();
+           }
+       }); 
        JButton button4 = new JButton ("4");
        c.gridx = 0;
        c.gridy = 3;
@@ -749,8 +760,8 @@ class CalcPanel extends JPanel {
                     switchOperator = true;
                }
                if (switchOperator) {
-                  removeLastOperator(secondaryDisplay);
-                  setOperator("&emsp;" + "+" + "&emsp;",Operations.ADDITION);
+                   removeLastOperator(secondaryDisplay);
+                   setOperator("&emsp;" + "+" + "&emsp;",Operations.ADDITION);
                }
                if (secondaryEntrySet) {
                    setOperator("&emsp;" + "+" + "&emsp;",Operations.ADDITION);
@@ -876,10 +887,7 @@ class CalcPanel extends JPanel {
             secondaryEntrySet = false;
             switchOperator = false;
             firstNumberPressed = false;
-            plusClicked = false;
-            minusClicked = false;
-            multiplyClicked = false;
-            divideClicked = false;
+            resetClicks();
             decPressed = false;
             dividedByZero = false;
         }
@@ -892,6 +900,9 @@ class CalcPanel extends JPanel {
             equationCalculated = true;
             setSecondEntry = false;
             secondaryEntrySet = false;
+            switchOperator = false;
+            resetClicks();
+            firstNumberPressed = true;
             currentOperator = null;
             resetSecondaryDisplay();
         }
@@ -1023,5 +1034,12 @@ class CalcPanel extends JPanel {
            attachToMain(Integer.toString(trimDouble(memory)));
            attachToSecondary(Integer.toString(trimDouble(memory)));
         }
+   }
+   
+   public void resetClicks() { 
+       plusClicked = false;
+       minusClicked = false;
+       multiplyClicked = false;
+       divideClicked = false;    
    }
 }
