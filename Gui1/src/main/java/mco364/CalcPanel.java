@@ -812,13 +812,10 @@ class CalcPanel extends JPanel {
                                                       // into the secondaryDisplay.
        } 
        String str = secondaryDisplay.toString();
-       System.out.println("this is the secondary display befor any removal: " + secondaryDisplay);
        int index = str.indexOf(mainDisplay.toString());
        str = str.substring(0, index);
-       System.out.println("this is str: " + str);
        flush(secondaryDisplay);
        attachToSecondary(str);
-       System.out.println("this is the secondary display after removal: " + secondaryDisplay);
    }
    
    public void checkMemoryRecalled() {
