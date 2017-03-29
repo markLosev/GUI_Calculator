@@ -51,6 +51,7 @@ class CalcPanel extends JPanel {
     private boolean multiplyClicked;
     private boolean divideClicked;
     private boolean switchOperator;
+    private boolean dividedByZero;
     
     
     //// must be set to false after calculator is cleared
@@ -880,27 +881,36 @@ class CalcPanel extends JPanel {
             multiplyClicked = false;
             divideClicked = false;
             decPressed = false;
+            dividedByZero = false;
         }
     }
     
     public void calculate() throws NumberFormatException {
         mathCalculation();
-        setMainText();
-        equationCalculated = true;
-        setSecondEntry = false;
-        secondaryEntrySet = false;
-        currentOperator = null;
-        resetSecondaryDisplay();
+        if (!dividedByZero) {
+            setMainText();
+            equationCalculated = true;
+            setSecondEntry = false;
+            secondaryEntrySet = false;
+            currentOperator = null;
+            resetSecondaryDisplay();
+        }
     }
 
     public void mathCalculation() throws NumberFormatException {
         checkMemoryAppend();
-        secondEntry = Double.parseDouble(mainDisplay.toString());
-        answer = logic.calculate(currentEntry, secondEntry, currentOperator);
-        flush(mainDisplay);
-        checkTrailingZeroes();
-        decPressed = false;
-        negated = false;
+        if (currentOperator == Operations.DIVISION && Double.parseDouble(mainDisplay.toString()) == 0.0) {
+            displayError("cannot divide by 0");
+            dividedByZero = true;
+        }
+        if (!dividedByZero) {
+            secondEntry = Double.parseDouble(mainDisplay.toString());
+            answer = logic.calculate(currentEntry, secondEntry, currentOperator);
+            flush(mainDisplay);
+            checkTrailingZeroes();
+            decPressed = false;
+            negated = false;
+        }
     }
     
     public void checkTrailingZeroes() {
@@ -933,6 +943,17 @@ class CalcPanel extends JPanel {
        }
        else {
            pane.setText("<small>" + function + "(" + mainDisplay.toString() + "</small><br><h1>" + error + "</h1><br><h1>" + whiteSpace + "M" + "</h1>"); 
+       }
+       equationCalculated = true;
+   }
+   
+   public void displayError(String error) {
+       System.out.println("this has been called");
+       if (!memorySaved) {
+           pane.setText("<small>" +  trimDouble(currentEntry) + "&emsp;" + "/" + "&emsp;" + "</small><br><h1>" + error + "</h1>");       
+       }
+       else {
+           pane.setText("<small>" + trimDouble(currentEntry) + "&emsp;" + "/" + "&emsp;" + "</small><br><h1>" + error + "</h1><br><h1>" + whiteSpace + "M" + "</h1>"); 
        }
        equationCalculated = true;
    }
