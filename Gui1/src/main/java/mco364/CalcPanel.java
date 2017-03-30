@@ -529,7 +529,7 @@ class CalcPanel extends JPanel {
                      c.gridy = coordinate.y;
                      add(multiplyButton, c);
                      break;
-                case "1/x":
+                case "1/X":
                      JButton reciprocalButton = new JButton ("1/x");
                      reciprocalButton.addActionListener(new reciprocalButtonListener());
                      c.gridx = coordinate.x;
@@ -779,6 +779,7 @@ class CalcPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            System.out.println("called");
             checkMemoryAppend();
             if(Double.parseDouble(mainDisplay.toString()) > 0 || Double.parseDouble(mainDisplay.toString()) < 0) { 
                 double num = 0;
