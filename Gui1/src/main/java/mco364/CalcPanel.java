@@ -10,6 +10,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
@@ -52,6 +53,7 @@ class CalcPanel extends JPanel {
     private boolean divideClicked;
     private boolean switchOperator;
     private boolean dividedByZero;
+    private ArrayList<Coordinate> buttonList;
     
     
     //// must be set to false after calculator is cleared
@@ -59,451 +61,34 @@ class CalcPanel extends JPanel {
     private boolean setSecondEntry;
     private boolean secondaryEntrySet;
     private boolean memoryRecalled;
+    
+    
+    
+    
+    GridBagConstraints c = new GridBagConstraints();
 
     public CalcPanel() {
        
        logic = new MathLogic();
+       buttonList = new ArrayList<>();
        
        pane = new JTextPane();
        pane.setContentType("text/html");
        pane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
        // This sets the screen to initialy show 0 like in a regular calculator.
-       pane.setText("</h1><br><h1>" + "0"+ "</h1>");
-       
-       
+       pane.setText("</h1><br><h1>" + "0"+ "</h1>");   
        
        mainDisplay = new StringBuilder();
        secondaryDisplay = new StringBuilder();
 
        setLayout (new GridBagLayout ());
-       GridBagConstraints c = new GridBagConstraints();
        c.weightx = 1.0;
        c.weighty = 1.0;
        c.fill = c.BOTH;
        c.insets = new Insets(4,4,4,4);
        
-       // all buttons are set by giving a coordinate on the grid and then 
-       // placing it into the Jpanel aka our calcPanel (the name of this class
-       // which extends Jpanel.
-       JButton buttonMC = new JButton ("MC");
-       c.gridx = 0;
-       c.gridy = 0;
-       add(buttonMC, c);
-       buttonMC.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               if (memoryRecalled) {
-                   flush(mainDisplay);
-                   attachToMain(Integer.toString(trimDouble(memory)));
-                   attachToSecondary(Integer.toString(trimDouble(memory)));
-                   memoryRecalled = false;
-               }
-               memory = 0;
-               memorySaved = false;
-               checkScreenSettings();
-           }
-       }); 
-       
-       JButton buttonMR = new JButton ("MR");
-       c.gridx = 1;
-       c.gridy = 0;
-       add(buttonMR, c);
-       buttonMR.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               memoryRecalled = true;
-               removeMainFromSecondary();
-               int memoryTrimmed = trimDouble(memory);
-               checkScreenSettings(Integer.toString(memoryTrimmed));
-           }
-       }); 
-       JButton buttonMS = new JButton ("MS");
-       c.gridx = 2;
-       c.gridy = 0;
-       add(buttonMS, c);
-       c.gridx = 0;
-       buttonMS.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               memorySaved = true;
-               memory = Double.parseDouble(mainDisplay.toString());
-               checkScreenSettings();
-           }
-       }); 
-       
-       JButton buttonMPlus = new JButton ("M+");
-       c.gridx = 3;
-       c.gridy = 0;
-       add(buttonMPlus, c);
-       buttonMPlus.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               memory = logic.calculate(Double.parseDouble(mainDisplay.toString()), memory,Operations.ADDITION);
-           }
-       }); 
-       
-       JButton buttonMMinus = new JButton ("M-");
-       c.gridx = 4;
-       c.gridy = 0;
-       add(buttonMMinus, c);
-       buttonMMinus.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               memory = logic.calculate(memory,Double.parseDouble(mainDisplay.toString()),Operations.SUBTRACTION);
-           }
-       }); 
-       
-       JButton buttonBackspace = new JButton ("\u2190");
-       c.gridx = 0;
-       c.gridy = 1;
-       add(buttonBackspace, c);
-       buttonBackspace.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               removeLastIndex(mainDisplay);
-               removeLastIndex(secondaryDisplay);
-               checkScreenSettings();
-           }
-       });
-       
-       JButton buttonClearEntry = new JButton ("CE");
-       c.gridx = 1;
-       c.gridy = 1;
-       add(buttonClearEntry, c);
-       buttonClearEntry.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               removeMainFromSecondary();
-               flush(mainDisplay);
-               checkScreenSettings("0");
-           } 
-       }); 
-       
-       JButton buttonClearAll = new JButton ("C");
-       c.gridx = 2;
-       c.gridy = 1;
-       add(buttonClearAll, c);
-       buttonClearAll.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-              flush(mainDisplay, secondaryDisplay);
-              secondaryDisplaySnapShot = "";
-              equationCalculated = true;
-              checkScreenSettings("0");
-           }
-       }); 
-       JButton buttonPosNeg = new JButton ("\u00B1");
-       c.gridx = 3;
-       c.gridy = 1;
-       add(buttonPosNeg, c);
-       buttonPosNeg.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               if (memoryRecalled) {
-                   flush(mainDisplay);
-                   attachToMain(Integer.toString(trimDouble(memory)));
-                   memoryRecalled = false;
-               }
-               String str = mainDisplay.toString();
-               removeMainFromSecondary();
-               flush(mainDisplay);
-               if (negated) {
-                   str = str.substring(1);
-                   negated = false;
-               }
-               else {
-                   str = "-" + str;
-                   negated = true;
-               }
-               attachToMain(str);
-               attachToSecondary(str);
-               checkScreenSettings();
-           }
-       });
-        
-       JButton buttonSqrt = new JButton ("\u221A");
-       c.gridx = 4;
-       c.gridy = 1;  
-       add(buttonSqrt, c);
-       buttonSqrt.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               checkMemoryAppend();
-               if(Double.parseDouble(mainDisplay.toString()) >= 0) { 
-                   double num = 0;
-                   prepPreFix("sqrt");
-                   num = Double.parseDouble(mainDisplay.toString());
-                   answer = logic.sqrt(num);
-                   flush(mainDisplay);
-                   checkTrailingZeroes();
-                   equationCalculated = true;
-                   secondaryDisplaySnapShot = secondaryDisplay.toString();
-                   setScreen();
-               }
-               else {
-                   displayError("sqrt", "invalid input");
-               }
-           }
-       });
-       
-       JButton button7 = new JButton ("7");
-       c.gridx = 0;
-       c.gridy = 2;
-       add(button7, c);
-       button7.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-              JButton b = (JButton) e.getSource();
-               setUpDigitButton(b.getText());
-           }
-       });
-       
-       JButton button8 = new JButton ("8");
-       c.gridx = 1;
-       c.gridy = 2;
-       add(button8, c);
-       button8.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               JButton b = (JButton) e.getSource();
-               setUpDigitButton(b.getText());              
-           }
-       });
-       
-       JButton button9 = new JButton ("9");
-       c.gridx = 2;
-       c.gridy = 2;
-       add(button9, c);
-       button9.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               JButton b = (JButton) e.getSource();
-               setUpDigitButton(b.getText());              
-           }
-       });
-       
-       JButton buttonDivide = new JButton ("/");
-       c.gridx = 3;
-       c.gridy = 2;
-       add(buttonDivide, c);
-       buttonDivide.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               setUpOperatorButton(divideClicked, "&emsp;" + "/" + "&emsp;", Operations.DIVISION);           }
-       });
-       
-       JButton buttonPercent = new JButton ("%");
-       c.gridx = 4;
-       c.gridy = 2;
-       add(buttonPercent, c);
-       //A + (A × B/100) 
-       buttonPercent.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               checkMemoryAppend();
-               double num = 0;
-               answer = logic.percent(Double.parseDouble(mainDisplay.toString()));
-               answer = logic.calculate(answer, currentEntry, Operations.MULTIPLICATION);
-               flush(mainDisplay);
-               checkTrailingZeroes();
-              // equationCalculated = true;
-               attachToSecondary("%");
-               secondaryDisplaySnapShot = secondaryDisplay.toString();
-               setScreen();
-           }
-       }); 
-       JButton button4 = new JButton ("4");
-       c.gridx = 0;
-       c.gridy = 3;
-       add(button4, c);
-       button4.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               JButton b = (JButton) e.getSource();
-               setUpDigitButton(b.getText());          
-           }
-       });
-       
-       JButton button5 = new JButton ("5");
-       c.gridx = 1;
-       c.gridy = 3;
-       add(button5, c);
-       button5.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               JButton b = (JButton) e.getSource();
-               setUpDigitButton(b.getText());              
-           }
-       });
-       
-       JButton button6 = new JButton ("6");
-       c.gridx = 2;
-       c.gridy = 3;
-       add(button6, c);
-       button6.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               JButton b = (JButton) e.getSource();
-               setUpDigitButton(b.getText());            
-           }
-       });
-       
-       JButton buttonMult = new JButton ("*");
-       c.gridx = 3;
-       c.gridy = 3;
-       add(buttonMult, c);
-       buttonMult.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               setUpOperatorButton(multiplyClicked, "&emsp;" + "*" + "&emsp;", Operations.MULTIPLICATION);
-           }
-       });
-      
-       
-       JButton buttonReciprocal = new JButton ("1/x");
-       c.gridx = 4;
-       c.gridy = 3;
-       add(buttonReciprocal, c);
-       buttonReciprocal.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-                checkMemoryAppend();
-                if(Double.parseDouble(mainDisplay.toString()) > 0 || Double.parseDouble(mainDisplay.toString()) < 0) { 
-                   double num = 0;
-                   prepPreFix("reciproc");
-                   num = Double.parseDouble(mainDisplay.toString());
-                   answer = logic.reciprocal(num);
-                   flush(mainDisplay);
-                   checkTrailingZeroes();
-                   equationCalculated = true;
-                   secondaryDisplaySnapShot = secondaryDisplay.toString();
-                   setScreen();
-               }
-                else {
-                   displayError("reciproc", "cannot divide by zero");
-               }
-           }
-           
-       });
-        
-       JButton button1 = new JButton ("1");
-       c.gridx = 0;
-       c.gridy = 4;
-       add(button1, c);
-       button1.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               JButton b = (JButton) e.getSource();
-               setUpDigitButton(b.getText());
-           }
-       });
-       
-       JButton button2 = new JButton ("2");
-       c.gridx = 1;
-       c.gridy = 4;
-       add(button2, c);
-       button2.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               JButton b = (JButton) e.getSource();
-               setUpDigitButton(b.getText());             
-           }
-       });
-       
-       JButton button3 = new JButton ("3");
-       c.gridx = 2;
-       c.gridy = 4;
-       add(button3, c);
-       button3.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               JButton b = (JButton) e.getSource();
-               setUpDigitButton(b.getText());            
-           }
-       });
-       
-       JButton buttonSubtract = new JButton ("-");
-       c.gridx = 3;
-       c.gridy = 4;
-       add(buttonSubtract, c);
-       buttonSubtract.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               setUpOperatorButton(minusClicked, "&emsp;" + "-" + "&emsp;", Operations.SUBTRACTION);
-           }
-       });
-       
-       
-       /**3 options for what calc does *after* equals (which clear secondaryDisplay)
-        *   1- Press Number, changes mainDisplay to that Number, start new calculation
-        *   2- Press Operator, continues with that Number
-        *   ((OPTIONAL 3- Press Equals, takes the last operator + number entered & repeats))
-        */  
-       c.gridheight = 2;
-       JButton buttonEquals = new JButton ("=");
-       c.gridx = 4;
-       c.gridy = 4;
-       add(buttonEquals, c);
-       c.gridheight = 1;
-       buttonEquals.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               if (currentOperator == null) {
-                   setMainText();
-               }
-               else {
-                   calculate();
-               }
-           }
-       });
-       
-       /**Corner Cases involving 0
-        if only 0 in mainDisplay    - if press 0, nothing should happen
-        *(just opened / pressed 0)  - if press +,-,/,*,sqrt, decimal, reciprocal, treat as 0
-        *                           - if press 1-9, overwrite 0 (and ten begin to append)
-        *                           - we need to set a reciprocal error.
-        */
-       
-       c.gridwidth = 2;
-       JButton button0 = new JButton ("0");
-       c.gridx = 0;
-       c.gridy = 5;
-       add(button0, c);
-       c.gridwidth = 1;
-       button0.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               JButton b = (JButton) e.getSource();
-               setUpDigitButton(b.getText());
-           }
-       });
-       
-       JButton buttonDec = new JButton (".");
-       c.gridx = 2;
-       c.gridy = 5;
-       add(buttonDec, c);
-       buttonDec.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               if (!(decPressed)) {
-                   attachToMain(".");
-                   attachToSecondary("."); 
-                   checkScreenSettings();
-                   decPressed = true;
-               }
-           }
-       });
-        
-       JButton buttonAdd = new JButton ("+");
-       c.gridx = 3;
-       c.gridy = 5;
-       add(buttonAdd, c);
-       buttonAdd.addActionListener(new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               setUpOperatorButton(plusClicked, "&emsp;" + "+" + "&emsp;", Operations.ADDITION);
-           }         
-       }); 
+       createButtonList();
+       setUpCalculatorButtons();
     }
     
     private void setOperator (String mathProcess, Operations operator) {
@@ -818,4 +403,424 @@ class CalcPanel extends JPanel {
            switchOperator = true;
        }
    }
+   
+    private void createButtonList() {
+       buttonList.add(new Coordinate("MC", 0, 0));
+       buttonList.add(new Coordinate("MR", 1, 0));
+       buttonList.add(new Coordinate("MS", 2, 0));
+       buttonList.add(new Coordinate("M+", 3, 0));
+       buttonList.add(new Coordinate("M-", 4, 0));
+       buttonList.add(new Coordinate("\u2190", 0 ,1));
+       buttonList.add(new Coordinate("CE", 1, 1));
+       buttonList.add(new Coordinate("C", 2, 1));
+       buttonList.add(new Coordinate("\u00B1", 3, 1));
+       buttonList.add(new Coordinate("\u221A", 4, 1));
+       buttonList.add(new Coordinate("7", 0, 2));
+       buttonList.add(new Coordinate("8", 1, 2));
+       buttonList.add(new Coordinate("9", 2, 2));
+       buttonList.add(new Coordinate("/", 3, 2));
+       buttonList.add(new Coordinate("%", 4, 2));
+       buttonList.add(new Coordinate("4", 0, 3));
+       buttonList.add(new Coordinate("5", 1, 3));
+       buttonList.add(new Coordinate("6", 2, 3));
+       buttonList.add(new Coordinate("*", 3, 3));
+       buttonList.add(new Coordinate("1/X", 4, 3));
+       buttonList.add(new Coordinate("1", 0, 4));
+       buttonList.add(new Coordinate("2", 1, 4));
+       buttonList.add(new Coordinate("3", 2, 4));
+       buttonList.add(new Coordinate("-", 3, 4));
+       buttonList.add(new Coordinate("=", 4, 4));
+       buttonList.add(new Coordinate("0", 0, 5));
+       buttonList.add(new Coordinate(".", 2, 5));
+       buttonList.add(new Coordinate("+", 3, 5));    
+    }
+    
+     public void setUpCalculatorButtons() {
+        for (Coordinate coordinate : buttonList) {
+            switch (coordinate.symbol) {
+                case "MC":
+                     JButton mcButton = new JButton ("MC");
+                     mcButton.addActionListener(new memoryClearButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(mcButton, c);
+                     break;
+                case "MR":
+                     JButton mrButton = new JButton ("MR");
+                     mrButton.addActionListener(new memoryRecallButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(mrButton, c);
+                     break;
+                case "MS":
+                     JButton msButton = new JButton ("MS");
+                     msButton.addActionListener(new memorySaveButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(msButton, c);
+                     break;
+                case "M+":
+                     JButton mPlusButton = new JButton ("M+");
+                     mPlusButton.addActionListener(new memoryPlusButonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(mPlusButton, c);
+                     break;
+                case "M-":
+                     JButton mMinusButton = new JButton ("M-");
+                     mMinusButton.addActionListener(new memoryMinusinusButonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(mMinusButton, c);
+                     break;
+                case "\u2190":
+                     JButton backSpaceButton = new JButton ("\u2190");
+                     backSpaceButton.addActionListener(new backButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(backSpaceButton, c);
+                     break;
+                case "CE":
+                     JButton clearEntryButton = new JButton ("CE");
+                     clearEntryButton.addActionListener(new clearEntryButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(clearEntryButton, c);
+                     break;
+                case "C":
+                     JButton clearButton = new JButton ("C");
+                     clearButton.addActionListener(new clearButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(clearButton, c);
+                     break;
+                case "\u00B1":
+                     JButton negateButton = new JButton ("\u00B1");
+                     negateButton.addActionListener(new negateButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(negateButton, c);
+                     break;
+                case "\u221A":
+                     JButton sqrtButton = new JButton ("\u221A");
+                     sqrtButton.addActionListener(new sqrtButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(sqrtButton, c);
+                     break;
+                case "/":
+                     JButton divideButton = new JButton ("/");
+                     divideButton.addActionListener(new divideButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(divideButton, c);
+                     break;
+                 case "%":
+                     JButton percentButton = new JButton ("%");
+                     percentButton.addActionListener(new percentButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(percentButton, c);
+                     break;
+                 case "*":
+                     JButton multiplyButton = new JButton ("*");
+                     multiplyButton.addActionListener(new multiplyButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(multiplyButton, c);
+                     break;
+                 case "1/x":
+                     JButton reciprocalButton = new JButton ("1/x");
+                     reciprocalButton.addActionListener(new reciprocalButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(reciprocalButton, c);
+                     break;
+                 case "-":
+                     JButton minusButton = new JButton ("-");
+                     minusButton.addActionListener(new minusButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(minusButton, c);
+                     break;
+                case "=":
+                     JButton equalsButton = new JButton ("=");
+                     equalsButton.addActionListener(new equalsButtonListener());
+                     c.gridheight = 2;
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(equalsButton, c);
+                     c.gridheight = 1;
+                     break;
+                case "0":
+                     JButton zeroButton = new JButton ("0");
+                     zeroButton.addActionListener(new DigitButtonListener());
+                     c.gridwidth = 2;
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(zeroButton, c);
+                     c.gridwidth = 1;
+                     break;
+                case ".":
+                     JButton decimalButton = new JButton (".");
+                     decimalButton.addActionListener(new decimalButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(decimalButton, c);
+                     break;
+                case "+":
+                     JButton plusButton = new JButton ("+");
+                     plusButton.addActionListener(new plusButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(plusButton, c);
+                     break;
+                default:
+                     JButton digitButton = new JButton (coordinate.symbol);
+                     digitButton.addActionListener(new DigitButtonListener());
+                     c.gridx = coordinate.x;
+                     c.gridy = coordinate.y;
+                     add(digitButton, c);
+                     break;
+            }
+        }
+    }
+    
+    private class DigitButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton b = (JButton) e.getSource();
+            setUpDigitButton(b.getText());
+        }  
+    }
+    
+    private class plusButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            setUpOperatorButton(plusClicked, "&emsp;" + "+" + "&emsp;", Operations.ADDITION);
+        }
+    }
+    
+    private class minusButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            setUpOperatorButton(plusClicked, "&emsp;" + "-" + "&emsp;", Operations.SUBTRACTION);
+        }
+    }
+     
+    private class multiplyButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            setUpOperatorButton(plusClicked, "&emsp;" + "*" + "&emsp;", Operations.MULTIPLICATION);
+        }
+    }
+    
+    private class divideButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            setUpOperatorButton(plusClicked, "&emsp;" + "/" + "&emsp;", Operations.DIVISION);
+        }
+    }
+    
+    private class memoryClearButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (memoryRecalled) {
+                   flush(mainDisplay);
+                   attachToMain(Integer.toString(trimDouble(memory)));
+                   attachToSecondary(Integer.toString(trimDouble(memory)));
+                   memoryRecalled = false;
+            }
+            memory = 0;
+            memorySaved = false;
+            checkScreenSettings();
+       }
+    }
+    
+    private class memorySaveButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            memorySaved = true;
+            memory = Double.parseDouble(mainDisplay.toString());
+            checkScreenSettings();
+        }
+    }
+    
+    private class memoryRecallButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            memoryRecalled = true;
+            removeMainFromSecondary();
+            int memoryTrimmed = trimDouble(memory);
+            checkScreenSettings(Integer.toString(memoryTrimmed));
+        }     
+    }
+    
+    private class memoryPlusButonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            memory = logic.calculate(Double.parseDouble(mainDisplay.toString()), memory,Operations.ADDITION);     
+        }
+    }
+    
+    private class memoryMinusinusButonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            memory = logic.calculate(Double.parseDouble(mainDisplay.toString()), memory,Operations.SUBTRACTION);     
+        }
+    }
+    
+    private class backButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            removeLastIndex(mainDisplay);
+            removeLastIndex(secondaryDisplay);
+            checkScreenSettings();
+        }     
+    }
+    
+    private class clearEntryButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            removeMainFromSecondary();
+            flush(mainDisplay);
+            checkScreenSettings("0");
+        }      
+    }
+    
+    private class clearButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            flush(mainDisplay, secondaryDisplay);
+            secondaryDisplaySnapShot = "";
+            equationCalculated = true;
+            checkScreenSettings("0");
+        }      
+    }
+    
+    private class negateButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (memoryRecalled) {
+                flush(mainDisplay);
+                attachToMain(Integer.toString(trimDouble(memory)));
+                memoryRecalled = false;
+            }
+            String str = mainDisplay.toString();
+            removeMainFromSecondary();
+            flush(mainDisplay);
+            if (negated) {
+                str = str.substring(1);
+                negated = false;
+            }
+            else {
+                str = "-" + str;
+                negated = true;
+            }
+            attachToMain(str);
+            attachToSecondary(str);
+            checkScreenSettings();
+        }       
+    }
+    
+    private class sqrtButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            checkMemoryAppend();
+            if(Double.parseDouble(mainDisplay.toString()) >= 0) { 
+                double num = 0;
+                prepPreFix("sqrt");
+                num = Double.parseDouble(mainDisplay.toString());
+                answer = logic.sqrt(num);
+                flush(mainDisplay);
+                checkTrailingZeroes();
+                equationCalculated = true;
+                secondaryDisplaySnapShot = secondaryDisplay.toString();
+                setScreen();
+            }
+            else {
+                displayError("sqrt", "invalid input");
+            }
+        }     
+    }
+    
+    private class percentButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            checkMemoryAppend();
+            double num = 0;
+            answer = logic.percent(Double.parseDouble(mainDisplay.toString()));
+            answer = logic.calculate(answer, currentEntry, Operations.MULTIPLICATION);
+            flush(mainDisplay);
+            checkTrailingZeroes();
+            attachToSecondary("%");
+            secondaryDisplaySnapShot = secondaryDisplay.toString();
+            setScreen();
+        }      
+    }
+    
+    private class reciprocalButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            checkMemoryAppend();
+            if(Double.parseDouble(mainDisplay.toString()) > 0 || Double.parseDouble(mainDisplay.toString()) < 0) { 
+                double num = 0;
+                prepPreFix("reciproc");
+                num = Double.parseDouble(mainDisplay.toString());
+                answer = logic.reciprocal(num);
+                flush(mainDisplay);
+                checkTrailingZeroes();
+                equationCalculated = true;
+                secondaryDisplaySnapShot = secondaryDisplay.toString();
+                setScreen();
+            }
+            else {
+                displayError("reciproc", "cannot divide by zero");
+            }
+        }       
+    }
+    
+    private class decimalButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (!(decPressed)) {
+                attachToMain(".");
+                attachToSecondary("."); 
+                checkScreenSettings();
+                decPressed = true;
+            }
+        }       
+    }
+    
+    private class equalsButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (currentOperator == null) {
+                setMainText();
+            }
+            else {
+                calculate();
+            }      
+        }
+        
+    }
 }
