@@ -515,28 +515,28 @@ class CalcPanel extends JPanel {
                      c.gridy = coordinate.y;
                      add(divideButton, c);
                      break;
-                 case "%":
+                case "%":
                      JButton percentButton = new JButton ("%");
                      percentButton.addActionListener(new percentButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(percentButton, c);
                      break;
-                 case "*":
+                case "*":
                      JButton multiplyButton = new JButton ("*");
                      multiplyButton.addActionListener(new multiplyButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(multiplyButton, c);
                      break;
-                 case "1/x":
+                case "1/x":
                      JButton reciprocalButton = new JButton ("1/x");
                      reciprocalButton.addActionListener(new reciprocalButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(reciprocalButton, c);
                      break;
-                 case "-":
+                case "-":
                      JButton minusButton = new JButton ("-");
                      minusButton.addActionListener(new minusButtonListener());
                      c.gridx = coordinate.x;
