@@ -32,8 +32,6 @@ class CalcPanel extends JPanel {
     // some sort of operation is called such as add. It will keep track and be 
     // used to display all numbers and operators that are being used for a given equation.
     private StringBuilder secondaryDisplay;
-    
-    // checks if MS was pressed 
     private boolean memorySaved;
     private double memory;
     private double currentEntry;
@@ -54,16 +52,9 @@ class CalcPanel extends JPanel {
     private boolean switchOperator;
     private boolean dividedByZero;
     private ArrayList<Coordinate> buttonList;
-    
-    
-    //// must be set to false after calculator is cleared
-    
     private boolean setSecondEntry;
     private boolean secondaryEntrySet;
     private boolean memoryRecalled;
-    
-    
-    
     
     GridBagConstraints c = new GridBagConstraints();
 
@@ -337,7 +328,7 @@ class CalcPanel extends JPanel {
        attachToSecondary(str);
    }
    
-   public void checkMemoryRecalled() {
+   public void deleteRecalledMemory() {
        if (memoryRecalled) {
            flush(mainDisplay);
            memoryRecalled = false;
@@ -359,9 +350,9 @@ class CalcPanel extends JPanel {
        divideClicked = false;    
    }
    
-   public void setUpDigitButton(String number) {
+   public void setUpNewDigit(String number) {
        checkNewCalculation();
-       checkMemoryRecalled();
+       deleteRecalledMemory();
        if (currentOperator == null || setSecondEntry) {
            attachToMain(number);
            attachToSecondary(number);
@@ -384,7 +375,7 @@ class CalcPanel extends JPanel {
         }             
    }
    
-   public void setUpOperatorButton(Boolean clickedOperator, String operationString, Operations operator) {
+   public void setUpOperatorSymbol(Boolean clickedOperator, String operationString, Operations operator) {
        checkForPreviousOperator();
        if (!clickedOperator && firstNumberPressed) {
            attachToSecondary(operationString);               
@@ -439,112 +430,112 @@ class CalcPanel extends JPanel {
         for (Coordinate coordinate : buttonList) {
             switch (coordinate.symbol) {
                 case "MC":
-                     JButton mcButton = new JButton ("MC");
+                     JButton mcButton = new JButton (coordinate.symbol);
                      mcButton.addActionListener(new memoryClearButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(mcButton, c);
                      break;
                 case "MR":
-                     JButton mrButton = new JButton ("MR");
+                     JButton mrButton = new JButton (coordinate.symbol);
                      mrButton.addActionListener(new memoryRecallButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(mrButton, c);
                      break;
                 case "MS":
-                     JButton msButton = new JButton ("MS");
+                     JButton msButton = new JButton (coordinate.symbol);
                      msButton.addActionListener(new memorySaveButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(msButton, c);
                      break;
                 case "M+":
-                     JButton mPlusButton = new JButton ("M+");
+                     JButton mPlusButton = new JButton (coordinate.symbol);
                      mPlusButton.addActionListener(new memoryPlusButonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(mPlusButton, c);
                      break;
                 case "M-":
-                     JButton mMinusButton = new JButton ("M-");
+                     JButton mMinusButton = new JButton (coordinate.symbol);
                      mMinusButton.addActionListener(new memoryMinusinusButonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(mMinusButton, c);
                      break;
                 case "\u2190":
-                     JButton backSpaceButton = new JButton ("\u2190");
+                     JButton backSpaceButton = new JButton (coordinate.symbol);
                      backSpaceButton.addActionListener(new backButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(backSpaceButton, c);
                      break;
                 case "CE":
-                     JButton clearEntryButton = new JButton ("CE");
+                     JButton clearEntryButton = new JButton (coordinate.symbol);
                      clearEntryButton.addActionListener(new clearEntryButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(clearEntryButton, c);
                      break;
                 case "C":
-                     JButton clearButton = new JButton ("C");
+                     JButton clearButton = new JButton (coordinate.symbol);
                      clearButton.addActionListener(new clearButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(clearButton, c);
                      break;
                 case "\u00B1":
-                     JButton negateButton = new JButton ("\u00B1");
+                     JButton negateButton = new JButton (coordinate.symbol);
                      negateButton.addActionListener(new negateButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(negateButton, c);
                      break;
                 case "\u221A":
-                     JButton sqrtButton = new JButton ("\u221A");
+                     JButton sqrtButton = new JButton (coordinate.symbol);
                      sqrtButton.addActionListener(new sqrtButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(sqrtButton, c);
                      break;
                 case "/":
-                     JButton divideButton = new JButton ("/");
+                     JButton divideButton = new JButton (coordinate.symbol);
                      divideButton.addActionListener(new divideButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(divideButton, c);
                      break;
                 case "%":
-                     JButton percentButton = new JButton ("%");
+                     JButton percentButton = new JButton (coordinate.symbol);
                      percentButton.addActionListener(new percentButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(percentButton, c);
                      break;
                 case "*":
-                     JButton multiplyButton = new JButton ("*");
+                     JButton multiplyButton = new JButton (coordinate.symbol);
                      multiplyButton.addActionListener(new multiplyButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(multiplyButton, c);
                      break;
                 case "1/X":
-                     JButton reciprocalButton = new JButton ("1/X");
+                     JButton reciprocalButton = new JButton (coordinate.symbol);
                      reciprocalButton.addActionListener(new reciprocalButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(reciprocalButton, c);
                      break;
                 case "-":
-                     JButton minusButton = new JButton ("-");
+                     JButton minusButton = new JButton (coordinate.symbol);
                      minusButton.addActionListener(new minusButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(minusButton, c);
                      break;
                 case "=":
-                     JButton equalsButton = new JButton ("=");
+                     JButton equalsButton = new JButton (coordinate.symbol);
                      equalsButton.addActionListener(new equalsButtonListener());
                      c.gridheight = 2;
                      c.gridx = coordinate.x;
@@ -553,7 +544,7 @@ class CalcPanel extends JPanel {
                      c.gridheight = 1;
                      break;
                 case "0":
-                     JButton zeroButton = new JButton ("0");
+                     JButton zeroButton = new JButton (coordinate.symbol);
                      zeroButton.addActionListener(new DigitButtonListener());
                      c.gridwidth = 2;
                      c.gridx = coordinate.x;
@@ -562,14 +553,14 @@ class CalcPanel extends JPanel {
                      c.gridwidth = 1;
                      break;
                 case ".":
-                     JButton decimalButton = new JButton (".");
+                     JButton decimalButton = new JButton (coordinate.symbol);
                      decimalButton.addActionListener(new decimalButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
                      add(decimalButton, c);
                      break;
                 case "+":
-                     JButton plusButton = new JButton ("+");
+                     JButton plusButton = new JButton (coordinate.symbol);
                      plusButton.addActionListener(new plusButtonListener());
                      c.gridx = coordinate.x;
                      c.gridy = coordinate.y;
@@ -591,7 +582,7 @@ class CalcPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton b = (JButton) e.getSource();
-            setUpDigitButton(b.getText());
+            setUpNewDigit(b.getText());
         }  
     }
     
@@ -599,7 +590,7 @@ class CalcPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            setUpOperatorButton(plusClicked, "&emsp;" + "+" + "&emsp;", Operations.ADDITION);
+            setUpOperatorSymbol(plusClicked, "&emsp;" + "+" + "&emsp;", Operations.ADDITION);
         }
     }
     
@@ -607,7 +598,7 @@ class CalcPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            setUpOperatorButton(plusClicked, "&emsp;" + "-" + "&emsp;", Operations.SUBTRACTION);
+            setUpOperatorSymbol(plusClicked, "&emsp;" + "-" + "&emsp;", Operations.SUBTRACTION);
         }
     }
      
@@ -615,7 +606,7 @@ class CalcPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            setUpOperatorButton(plusClicked, "&emsp;" + "*" + "&emsp;", Operations.MULTIPLICATION);
+            setUpOperatorSymbol(plusClicked, "&emsp;" + "*" + "&emsp;", Operations.MULTIPLICATION);
         }
     }
     
@@ -623,7 +614,7 @@ class CalcPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            setUpOperatorButton(plusClicked, "&emsp;" + "/" + "&emsp;", Operations.DIVISION);
+            setUpOperatorSymbol(plusClicked, "&emsp;" + "/" + "&emsp;", Operations.DIVISION);
         }
     }
     
