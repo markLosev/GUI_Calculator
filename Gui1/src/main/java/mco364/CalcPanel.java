@@ -395,7 +395,14 @@ class CalcPanel extends JPanel {
        }
    }
    
-    private void createButtonList() {
+   public boolean checkMainDisplayVacancy() {
+       if (mainDisplay.toString().equals("")) {
+           return true;
+       }
+       return false;
+   }
+   
+   private void createButtonList() {
        buttonList.add(new Coordinate("MC", 0, 0));
        buttonList.add(new Coordinate("MR", 1, 0));
        buttonList.add(new Coordinate("MS", 2, 0));
@@ -711,7 +718,7 @@ class CalcPanel extends JPanel {
                 attachToMain(Integer.toString(trimDouble(memory)));
                 memoryRecalled = false;
             }
-            if (mainDisplay.toString().equals("")) {
+            if (checkMainDisplayVacancy()) {
                 return;
             }
             if (mainDisplay.toString().contains("-")) {
@@ -739,6 +746,9 @@ class CalcPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             checkMemoryAppend();
+            if (checkMainDisplayVacancy()) {
+                return;
+            }
             if(Double.parseDouble(mainDisplay.toString()) >= 0) { 
                 double num = 0;
                 prepPreFix("sqrt");
@@ -761,6 +771,9 @@ class CalcPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             checkMemoryAppend();
+            if (checkMainDisplayVacancy()) {
+                return;
+            }
             double num = 0;
             answer = logic.percent(Double.parseDouble(mainDisplay.toString()));
             answer = logic.calculate(answer, currentEntry, Operations.MULTIPLICATION);
@@ -776,7 +789,9 @@ class CalcPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("called");
+            if (checkMainDisplayVacancy()) {
+                return;
+            }
             checkMemoryAppend();
             if(Double.parseDouble(mainDisplay.toString()) > 0 || Double.parseDouble(mainDisplay.toString()) < 0) { 
                 double num = 0;
@@ -813,7 +828,7 @@ class CalcPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (currentOperator == null) {
-                setMainText();
+                return;
             }
             else {
                 calculate();
