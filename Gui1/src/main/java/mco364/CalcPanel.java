@@ -711,6 +711,12 @@ class CalcPanel extends JPanel {
                 attachToMain(Integer.toString(trimDouble(memory)));
                 memoryRecalled = false;
             }
+            if (mainDisplay.toString().equals("")) {
+                return;
+            }
+            if (mainDisplay.toString().contains("-")) {
+                negated = true;
+            }
             String str = mainDisplay.toString();
             removeMainFromSecondary();
             flush(mainDisplay);
@@ -812,7 +818,6 @@ class CalcPanel extends JPanel {
             else {
                 calculate();
             }      
-        }
-        
+        }       
     }
 }
