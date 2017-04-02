@@ -23,18 +23,4 @@ public class Coordinate {
         this.y = y;
         this.symbol = symbol;
     }
-    
-    public Coordinate (String symblol, int x, int y, int width) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.symbol = symblol;
-    }
-    
-    public Coordinate (String symbol, int x, int y, int height, boolean isEquals) {
-        this.x = x;
-        this.y = y;
-        this.height = height;
-        this.symbol = symbol;
-    }
 }
